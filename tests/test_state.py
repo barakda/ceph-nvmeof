@@ -144,6 +144,10 @@ def test_state_notify_update(config, ioctx, local_state, omap_state):
     key = "bdev_test"
     state.update_interval = update_interval_sec
     state.use_notify = True
+
+    # TODO: this sleep solves the [errno 110] RADOS timed out and update_counter mismatch issues, /
+    #  both issues should be handled through PR-109
+    time.sleep(20)
     start = time.time()
     state.start_update()
 
