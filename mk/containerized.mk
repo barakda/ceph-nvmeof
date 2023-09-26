@@ -21,10 +21,10 @@ build: DOCKER_COMPOSE_ENV = DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
 
 GIT_LATEST_TAG != git describe --tags --abbrev=0
 push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
-push: docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$(GIT_LATEST_TAG)
-push: docker push $(QUAY_NVMEOF):$(GIT_LATEST_TAG)
-push: docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$(GIT_LATEST_TAG)
-push: docker push $(QUAY_NVMEOFCLI):$(GIT_LATEST_TAG)
+	docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$(GIT_LATEST_TAG)
+	docker push $(QUAY_NVMEOF):$(GIT_LATEST_TAG)
+	docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$(GIT_LATEST_TAG)
+	docker push $(QUAY_NVMEOFCLI):$(GIT_LATEST_TAG)
 
 run: ## Run command CMD inside SVC containers
 run: override OPTS += --rm
