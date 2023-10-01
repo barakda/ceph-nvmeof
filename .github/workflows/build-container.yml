@@ -1,10 +1,10 @@
 name: "CI"
 on:
   push:
-    branches:
-      - '*'
-#    tags:
-#      - 'v*'
+#    branches:
+#      - '*'
+    tags:
+      - 'v*'
   pull_request:
   workflow_dispatch:
 #  release:
@@ -432,7 +432,7 @@ jobs:
 #          make clean
 
   push-to-registry:
-#    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
 
