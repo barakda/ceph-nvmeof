@@ -283,7 +283,7 @@ jobs:
       - name: Download container images
         uses: actions/download-artifact@v3
         with:
-          name: images
+          name: ceph_nvmeof_container_images-${{ github.run_number }}
 
       - name: Load container images
         run: |
