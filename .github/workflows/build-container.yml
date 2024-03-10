@@ -90,8 +90,8 @@ jobs:
           whoami
           pwd
           hostname
-          docker load < bdevperf.tar
-          docker images
+          sudo docker load < bdevperf.tar
+          sudo docker images
           /tmp/atom_run.sh
 
   # build-ceph:
