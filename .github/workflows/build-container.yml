@@ -31,11 +31,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build container images - spdk
-        run: make build SVC="spdk" SPDK_TARGET_ARCH=x86-64-v2
+      # - name: Build container images - spdk
+      #   run: make build SVC="spdk" SPDK_TARGET_ARCH=x86-64-v2
 
-      # - name: Build container images - bdevperf
-      #   run: make build SVC="bdevperf" SPDK_TARGET_ARCH=x86-64-v2
+      - name: Build container images - bdevperf
+        run: make build SVC="bdevperf" SPDK_TARGET_ARCH=x86-64-v2
 
       # - name: Build container images - nvmeof
       #   run: make build SVC="nvmeof" SPDK_TARGET_ARCH=x86-64-v2
@@ -59,6 +59,13 @@ jobs:
       #       nvmeof-cli.tar
       #       bdevperf.tar
 
+      - name: Upload container images
+        uses: actions/upload-artifact@v4
+        with:
+          name: container_images
+          path: |
+            bdevperf.tar
+
   atom:
     needs: [build]
     runs-on: ibmcloud-1
@@ -75,9 +82,10 @@ jobs:
       - name: Load container images
         run: |
           echo hello ibm cloud server!
+          whoami
+          pwd
           hostname
-          # docker load < nvmeof.tar
-          # docker load < ceph.tar
+          docker load < bdevperf.tar
           docker images
           /tmp/atom_run.sh
 
