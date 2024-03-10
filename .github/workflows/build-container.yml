@@ -59,6 +59,11 @@ jobs:
       #       nvmeof-cli.tar
       #       bdevperf.tar
 
+      - name: Save container images
+        run: |
+          . .env
+          docker save bdevperf > bdevperf.tar
+
       - name: Upload container images
         uses: actions/upload-artifact@v4
         with:
