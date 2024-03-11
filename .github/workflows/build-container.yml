@@ -656,6 +656,7 @@ jobs:
 
       - name: Load container images
         run: |
+          sudo docker ps -a | grep nvmeof | awk '{print $1}' | xargs -r sudo docker rm --force
           sudo docker images | grep nvmeof | awk '{print $3}' | while read -r image_id; do sudo docker rmi --force "$image_id"; done
           sudo docker load < nvmeof.tar
           sudo docker load < nvmeof-cli.tar
