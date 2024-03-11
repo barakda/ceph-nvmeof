@@ -656,8 +656,8 @@ jobs:
 
       - name: Load container images
         run: |
-          docker load < nvmeof.tar
-          docker load < nvmeof-cli.tar
+          sudo docker load < nvmeof.tar
+          sudo docker load < nvmeof-cli.tar
 
       - name: Nvmeof Atom tests run
         run: |
