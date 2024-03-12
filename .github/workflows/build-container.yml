@@ -660,8 +660,10 @@ jobs:
 
       - name: Load container images
         run: |
-          echo ${{ secrets.APPUSERPWD }} | sudo -S docker load < nvmeof.tar
-          sudo docker load < nvmeof-cli.tar
+          echo "${{ secrets.APPUSERPWD }}" | runuser -u cephnvme -- docker load < nvmeof.tar
+          echo "${{ secrets.APPUSERPWD }}" | runuser -u cephnvme -- docker load < nvmeof-cli.tar
+          # sudo docker load < nvmeof.tar
+          # sudo docker load < nvmeof-cli.tar
 
       - name: Nvmeof Atom tests run
         run: |
