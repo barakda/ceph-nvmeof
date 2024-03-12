@@ -656,11 +656,7 @@ jobs:
 
       - name: Nvmeof Atom cleanup env
         run: |
-          sudo /root/cephadm/atomEnvCleanup.sh
-
-      - name: Powerup self-hosted runner
-        run: |
-          echo ${{ secrets.APPUSERPWD }} | sudo -S ibmcloud is instance-start ${{ secrets.IBMCLOUDPWD }}
+          echo ${{ secrets.APPUSERPWD }} | sudo -S /root/cephadm/atomEnvCleanup.sh
 
       - name: Load container images
         run: |
