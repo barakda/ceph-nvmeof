@@ -658,6 +658,10 @@ jobs:
         run: |
           sudo /root/cephadm/atomEnvCleanup.sh
 
+      - name: Powerup self-hosted runner
+        run: |
+          echo ${{ secrets.APPUSERPWD }} | sudo -S ibmcloud is instance-start ${{ secrets.IBMCLOUDPWD }}
+
       - name: Load container images
         run: |
           sudo docker ps -a | grep nvmeof | awk '{print $1}' | xargs -r sudo docker rm --force
