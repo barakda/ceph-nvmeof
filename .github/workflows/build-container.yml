@@ -667,10 +667,14 @@ jobs:
         run: |
           sudo /root/cephadm/atomTestsRun.sh
 
+      - name: Set artifact path permissions
+        run: |
+          sudo chmod -R o+rx /root/.ssh/atom_backup/artifact
+
       - uses: actions/upload-artifact@v4
         with:
           name: atom-artifact
-          path: /root/.ssh/atom_backup/artifact/*
+          path: /root/.ssh/atom_backup/artifact/**/*
 
   push-to-registry:
     if: github.event_name == 'release'
