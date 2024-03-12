@@ -660,7 +660,7 @@ jobs:
 
       - name: Load container images
         run: |
-          echo ${{ secrets.APPUSERPWD }} | sudo docker load < nvmeof.tar
+          echo ${{ secrets.APPUSERPWD }} | sudo -S docker load < nvmeof.tar
           sudo docker load < nvmeof-cli.tar
 
       - name: Nvmeof Atom tests run
@@ -670,7 +670,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: atom-artifact
-          path: /root/.ssh/atom_backup/artifact/ # or path/to/artifact
+          path: /root/.ssh/atom_backup/artifact/**/*
 
   push-to-registry:
     if: github.event_name == 'release'
