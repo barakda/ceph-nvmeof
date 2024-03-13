@@ -669,8 +669,8 @@ jobs:
 
       - name: Set artifact path permissions
         run: |
-          sudo chmod +rx /root /root/.ssh /root/.ssh/atom_backup
-          sudo chown -R cephnvme /root/.ssh/atom_backup/artifact
+          sudo chmod -R +rx /root/.ssh/atom_backup
+          sudo chown -R cephnvme /root/.ssh/atom_backup/
 
       - uses: actions/upload-artifact@v4
         with:
