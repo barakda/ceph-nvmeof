@@ -658,24 +658,28 @@ jobs:
         run: |
           echo ${{ secrets.APPUSERPWD }} | sudo -S /root/cephadm/atomEnvCleanup.sh
 
-      - name: Load container images
-        run: |
-          sudo docker load < nvmeof.tar
-          sudo docker load < nvmeof-cli.tar
+      # - name: Load container images
+      #   run: |
+      #     sudo docker load < nvmeof.tar
+      #     sudo docker load < nvmeof-cli.tar
 
       # - name: Nvmeof Atom tests run
       #   run: |
       #     sudo /root/cephadm/atomTestsRun.sh
 
-      - name: Set artifact path permissions
-        run: |
-          echo ${{ secrets.APPUSERPWD }} | sudo -S chmod -R +rx /root/.ssh/atom_backup
-          echo ${{ secrets.APPUSERPWD }} | sudo -S chown -R cephnvme /root/.ssh/atom_backup/
+      - name: Artifact logs copy
+        if: success() || failure()
+        run: sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
+    
+      # - name: Set artifact path permissions
+      #   run: |
+      #     sudo chmod -R +rx /tmp/artifact
+      #     sudo chown -R cephnvme /tmp/artifact
 
       - uses: actions/upload-artifact@v4
         with:
           name: atom-artifact
-          path: /root/.ssh/atom_backup/artifact/**/*
+          path: /tmp/artifact/**/*
 
   # push-to-registry:
   #   if: github.event_name == 'release'
