@@ -658,18 +658,18 @@ jobs:
         run: |
           echo ${{ secrets.APPUSERPWD }} | sudo -S /root/cephadm/atomEnvCleanup.sh
 
-      # - name: Load container images
-      #   run: |
-      #     sudo docker load < nvmeof.tar
-      #     sudo docker load < nvmeof-cli.tar
+      - name: Load container images
+        run: |
+          sudo docker load < nvmeof.tar
+          sudo docker load < nvmeof-cli.tar
 
-      # - name: Nvmeof Atom tests run
-      #   run: |
-      #     sudo /root/cephadm/atomTestsRun.sh
+      - name: Nvmeof Atom tests run
+        run: |
+          sudo /root/cephadm/atomTestsRun.sh
 
       - name: Artifact logs copy
         if: success() || failure()
-        run: cp -r /root/.ssh/atom_backup/artifact /tmp/
+        run: sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
     
       # - name: Set artifact path permissions
       #   run: |
