@@ -667,7 +667,8 @@ jobs:
 
       - name: Nvmeof Atom tests run
         run: |
-          sudo /root/cephadm/atomTestsRun.sh
+          echo ${{ secrets.APPUSERPWD }} | sudo -S /root/cephadm/atomTestsRun.sh
+          # sudo /root/cephadm/atomTestsRun.sh
 
       - name: Artifact logs copy
         # if: success() || failure()
