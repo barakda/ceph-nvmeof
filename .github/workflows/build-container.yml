@@ -669,7 +669,9 @@ jobs:
 
       - name: Artifact logs copy
         if: success() || failure()
-        run: sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
+        run: |
+          sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
+          sudo chmod -R +rx /tmp/artifact
     
       # - name: Set artifact path permissions
       #   run: |
@@ -679,7 +681,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: atom-artifact
-          path: /tmp/artifact/**/*
+          path: /tmp/artifact/*
 
   # push-to-registry:
   #   if: github.event_name == 'release'
