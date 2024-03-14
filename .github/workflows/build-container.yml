@@ -662,18 +662,14 @@ jobs:
         run: |
           docker load < nvmeof.tar
           docker load < nvmeof-cli.tar
-          # sudo docker load < nvmeof.tar
-          # sudo docker load < nvmeof-cli.tar
 
       - name: Nvmeof Atom tests run
         run: |
           echo ${{ secrets.APPUSERPWD }} | sudo -S /root/cephadm/atomTestsRun.sh
-          # sudo /root/cephadm/atomTestsRun.sh
 
       - name: Artifact logs copy
-        # if: success() || failure()
         run: |
-          echo ${{ secrets.APPUSERPWD }} | sudo -S cp -r /root/.ssh/atom_backup/artifact /tmp/
+          sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
           sudo chmod -R +rx /tmp/artifact
 
       - uses: actions/upload-artifact@v4
