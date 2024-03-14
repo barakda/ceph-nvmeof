@@ -669,7 +669,7 @@ jobs:
 
       - name: Artifact logs copy
         if: success() || failure()
-        run: sudo cp -r /root/.ssh/atom_backup/artifact /tmp/
+        run: cp -r /root/.ssh/atom_backup/artifact /tmp/
     
       # - name: Set artifact path permissions
       #   run: |
