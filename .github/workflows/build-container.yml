@@ -634,7 +634,7 @@ jobs:
           merge-multiple: true
 
       - name: Nvmeof Atom cleanup env
-        run: ./atomEnvCleanup.sh
+        run: ../atomEnvCleanup.sh
 
       - name: Load container images
         run: |
@@ -642,7 +642,7 @@ jobs:
           docker load < nvmeof-cli.tar
 
       - name: Nvmeof Atom tests run
-        run: ./atomTestsRun.sh $GITHUB_REPOSITORY ${GITHUB_REF##*/}
+        run: ../atomTestsRun.sh $GITHUB_REPOSITORY ${GITHUB_REF##*/}
 
       - uses: actions/upload-artifact@v4
         with:
