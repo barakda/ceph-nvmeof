@@ -646,8 +646,6 @@ jobs:
   #         make clean
 
   push-to-registry:
-    if: github.event_name == 'release'
-    # needs: [pytest, demo, discovery, ha]
     needs: build
     runs-on: ubuntu-latest
 
