@@ -645,7 +645,7 @@ jobs:
   #         make down
   #         make clean
 
-  push-images-on-merge:
+  push-images-on-merge-test:
     if: github.event_name == 'push' && github.ref == 'refs/heads/push_devel_repo_images_to_quay'
     needs: [build]
     # needs: [pytest, demo, discovery, ha]
