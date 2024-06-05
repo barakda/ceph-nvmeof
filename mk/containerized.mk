@@ -23,12 +23,11 @@ build:  ## Build SVC images
 build: DOCKER_COMPOSE_ENV = DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
 
 push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
-	sudo bash -c 'echo $(QUAY)'
-	PRV_QUAY_NVMEOF='$(QUAY)/nvmeof'
-	PRV_QUAY_NVMEOFCLI='$(QUAY)/nvmeof-cli'
-	if ! echo '$(PRV_QUAY_NVMEOF)' | grep -q 'ceph'; then \
+	PRV_QUAY_NVMEOF=$(QUAY)/nvmeof
+	PRV_QUAY_NVMEOFCLI=$(QUAY)/nvmeof-cli
+	if ! echo $(PRV_QUAY_NVMEOF) | grep -q 'ceph'; then \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$(VERSION); \
-		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$(VERSION); \	
+		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$(VERSION); \
 		docker tag $(PRV_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$$SHORT_VERSION; \
 		docker tag $(PRV_QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$$SHORT_VERSION; \
 		docker tag $(PRV_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):latest; \
@@ -49,7 +48,7 @@ push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 		docker push $(QUAY_NVMEOF):$$SHORT_VERSION; \
 		docker push $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
 		docker push $(QUAY_NVMEOF):latest; \
-		docker push $(QUAY_NVMEOFCLI):latest; \ 
+		docker push $(QUAY_NVMEOFCLI):latest; \
 	fi
 
 run: ## Run command CMD inside SVC containers
