@@ -23,7 +23,7 @@ build:  ## Build SVC images
 build: DOCKER_COMPOSE_ENV = DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
 
 push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
-    CEPH_QUAY_NVMEOF=$(QUAY_NVMEOF)
+	CEPH_QUAY_NVMEOF=$(QUAY_NVMEOF)
 	CEPH_QUAY_NVMEOFCLI=$(QUAY_NVMEOFCLI)
 	PRV_QUAY_NVMEOF=$(QUAY)/nvmeof
 	PRV_QUAY_NVMEOFCLI=$(QUAY)/nvmeof-cli
