@@ -26,18 +26,7 @@ push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 	sudo bash -c 'echo $(QUAY)'
 	PRV_QUAY_NVMEOF='$(QUAY)/nvmeof'
 	PRV_QUAY_NVMEOFCLI='$(QUAY)/nvmeof-cli'
-	if echo '$(QUAY-NVMEOF)' | grep -q 'ceph'; then \
-		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$$SHORT_VERSION; \
-		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
-		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):latest; \
-		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):latest; \
-		docker push $(QUAY_NVMEOF):$(VERSION); \
-		docker push $(QUAY_NVMEOFCLI):$(VERSION); \
-		docker push $(QUAY_NVMEOF):$$SHORT_VERSION; \
-		docker push $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
-		docker push $(QUAY_NVMEOF):latest; \
-		docker push $(QUAY_NVMEOFCLI):latest; \ 
-	else \
+	if ! echo '$(PRV_QUAY_NVMEOF)' | grep -q 'ceph'; then \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$(VERSION); \
 		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$(VERSION); \	
 		docker tag $(PRV_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$$SHORT_VERSION; \
@@ -50,6 +39,17 @@ push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 		docker push $(PRV_QUAY_NVMEOFCLI):$$SHORT_VERSION; \
 		docker push $(PRV_QUAY_NVMEOF):latest; \
 		docker push $(PRV_QUAY_NVMEOFCLI):latest; \
+	else \
+		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$$SHORT_VERSION; \
+		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
+		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):latest; \
+		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):latest; \
+		docker push $(QUAY_NVMEOF):$(VERSION); \
+		docker push $(QUAY_NVMEOFCLI):$(VERSION); \
+		docker push $(QUAY_NVMEOF):$$SHORT_VERSION; \
+		docker push $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
+		docker push $(QUAY_NVMEOF):latest; \
+		docker push $(QUAY_NVMEOFCLI):latest; \ 
 	fi
 
 run: ## Run command CMD inside SVC containers
