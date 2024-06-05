@@ -28,7 +28,7 @@ push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 	PRV_QUAY_NVMEOF=$(QUAY)/nvmeof
 	PRV_QUAY_NVMEOFCLI=$(QUAY)/nvmeof-cli
 	SHORT_VERSION=$(shell echo $(VERSION) | cut -d. -f1-2)
-	@if ! echo $(QUAY) | grep -q 'ceph'; then \
+	if ! echo $(QUAY) | grep -q 'ceph'; then \
 		echo "Using private registry tags"; \
 		echo "Tagging and pushing $(PRV_QUAY_NVMEOF) and $(PRV_QUAY_NVMEOFCLI)"; \
 		docker tag $(CEPH_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$(VERSION); \
