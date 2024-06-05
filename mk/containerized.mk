@@ -25,19 +25,20 @@ build: DOCKER_COMPOSE_ENV = DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
 push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 	PRV_QUAY_NVMEOF=$(QUAY)/nvmeof
 	PRV_QUAY_NVMEOFCLI=$(QUAY)/nvmeof-cli
-	if ! echo $(PRV_QUAY_NVMEOF) | grep -q 'ceph'; then \
-		docker tag $(QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$(VERSION); \
-		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$(VERSION); \
-		docker tag $(PRV_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):$$SHORT_VERSION; \
-		docker tag $(PRV_QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):$$SHORT_VERSION; \
-		docker tag $(PRV_QUAY_NVMEOF):$(VERSION) $(PRV_QUAY_NVMEOF):latest; \
-		docker tag $(PRV_QUAY_NVMEOFCLI):$(VERSION) $(PRV_QUAY_NVMEOFCLI):latest; \
-		docker push $(PRV_QUAY_NVMEOF):$(VERSION); \
-		docker push $(PRV_QUAY_NVMEOFCLI):$(VERSION); \
-		docker push $(PRV_QUAY_NVMEOF):$$SHORT_VERSION; \
-		docker push $(PRV_QUAY_NVMEOFCLI):$$SHORT_VERSION; \
-		docker push $(PRV_QUAY_NVMEOF):latest; \
-		docker push $(PRV_QUAY_NVMEOFCLI):latest; \
+	SHORT_VERSION=$(shell echo $(VERSION) | cut -d. -f1-2); \
+	if ! echo $(QUAY) | grep -q 'ceph'; then \
+		docker tag $(QUAY_NVMEOF):$(VERSION) $$PRV_QUAY_NVMEOF:$(VERSION); \
+		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $$PRV_QUAY_NVMEOFCLI:$(VERSION); \
+		docker tag $$PRV_QUAY_NVMEOF:$(VERSION) $$PRV_QUAY_NVMEOF:$$SHORT_VERSION; \
+		docker tag $$PRV_QUAY_NVMEOFCLI:$(VERSION) $$PRV_QUAY_NVMEOFCLI:$$SHORT_VERSION; \
+		docker tag $$PRV_QUAY_NVMEOF:$(VERSION) $$PRV_QUAY_NVMEOF:latest; \
+		docker tag $$PRV_QUAY_NVMEOFCLI:$(VERSION) $$PRV_QUAY_NVMEOFCLI:latest; \
+		docker push $$PRV_QUAY_NVMEOF:$(VERSION); \
+		docker push $$PRV_QUAY_NVMEOFCLI:$(VERSION); \
+		docker push $$PRV_QUAY_NVMEOF:$$SHORT_VERSION; \
+		docker push $$PRV_QUAY_NVMEOFCLI:$$SHORT_VERSION; \
+		docker push $$PRV_QUAY_NVMEOF:latest; \
+		docker push $$PRV_QUAY_NVMEOFCLI:latest; \
 	else \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$$SHORT_VERSION; \
 		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
