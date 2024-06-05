@@ -674,7 +674,7 @@ jobs:
 
       - name: Publish nvmeof containers when release/tag is created
         run: |
-          make push QUAY="quay.io/barakda1"
+          make push QUAY="${{ vars.CONTAINER_REGISTRY }}/${{ vars.CONTAINER_PRIVATE_REGISTRY_USERNAME }}"
 
   # push-images-to-ceph-registry:
   #   if: github.event_name == 'release'
