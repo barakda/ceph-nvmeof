@@ -24,13 +24,8 @@ build: DOCKER_COMPOSE_ENV = DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1
 
 push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 	@SHORT_VERSION=$(shell echo $(VERSION) | cut -d. -f1-2); \
-	# echo "Tagging and pushing nvmeof and nvmeof-cli for version [ $(VERSION) ] and short version [ $$SHORT_VERSION ]"; \
-	# echo "Tagging and pushing nvmeof and nvmeof-cli for version $(VERSION) and short version $$SHORT_VERSION"; \
-	echo "------   $$SHORT_VERSION  ------ "; \
-	echo "------ $(QUAY) --------- $$QUAY"; \
-	echo "------  $(QUAY)/nvmeof ------ "; \
 	if ! echo $(QUAY) | grep -q 'ceph'; then \
-		echo "====================================  PRIVATE ==================================== "; \
+		echo "==================================== PRIVATE ==================================== "; \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY)/nvmeof:$(VERSION); \
 		docker tag $(QUAY)/nvmeof:$(VERSION) $(QUAY)/nvmeof:$$SHORT_VERSION; \
 		docker tag $(QUAY)/nvmeof:$(VERSION) $(QUAY)/nvmeof:latest; \
@@ -44,7 +39,7 @@ push: ## Push nvmeof and nvmeof-cli containers images to quay.io registries
 		docker push $(QUAY)/nvmeof-cli:$$SHORT_VERSION; \
 		docker push $(QUAY)/nvmeof-cli:latest; \
 	else \
-		echo "====================================  OFFICIAL ==================================== "; \
+		echo "==================================== OFFICIAL ==================================== "; \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):$$SHORT_VERSION; \
 		docker tag $(QUAY_NVMEOF):$(VERSION) $(QUAY_NVMEOF):latest; \
 		docker tag $(QUAY_NVMEOFCLI):$(VERSION) $(QUAY_NVMEOFCLI):$$SHORT_VERSION; \
