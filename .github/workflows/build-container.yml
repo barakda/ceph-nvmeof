@@ -658,14 +658,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Nvmeof Atom cleanup env
+        run: /home/cephnvme/atomEnvCleanup.sh
+
       - name: Download container images
         uses: actions/download-artifact@v4
         with:
-          pattern: container_images*
+          pattern: container_images_nvmeof
           merge-multiple: true
-
-      - name: Nvmeof Atom cleanup env
-        run: /home/cephnvme/atomEnvCleanup.sh
 
       - name: Load container images
         run: |
@@ -728,7 +728,7 @@ jobs:
       - name: Download container images
         uses: actions/download-artifact@v4
         with:
-          name: container_images
+          name: container_images_nvmeof
 
       - name: Load container images
         run: |
