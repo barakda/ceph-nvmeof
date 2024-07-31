@@ -653,8 +653,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set execute permissions for atomEnvCleanup.sh
+        run: chmod +x ./tests/atom/atomEnvCleanup.sh
+        
       - name: Nvmeof Atom cleanup env
-        timeout-minutes: 3
         run: |
           ./tests/atom/atomEnvCleanup.sh
 
