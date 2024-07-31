@@ -9,7 +9,7 @@ RUNNER_PASS=$4
 
 pwd;ls -lta
 
-rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/brkd_work/ceph-nvmeof
+#######rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/brkd_work/ceph-nvmeof/ceph-nvmeof
 rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
 
 while true; do
