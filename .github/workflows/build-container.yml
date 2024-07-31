@@ -655,7 +655,7 @@ jobs:
         
       - name: Nvmeof Atom cleanup env
         run: |
-          ./tests/atom/atomEnvCleanup.sh ${{ vars.CONTAINER_REGISTRY_USERNAME }} ${{ ATOM_REPO_TOKEN }} ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
+          ./tests/atom/atomEnvCleanup.sh ${{ vars.CONTAINER_REGISTRY_USERNAME }} ${{ secrets.ATOM_REPO_TOKEN }} ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
 
       - name: Download container images
         uses: actions/download-artifact@v4

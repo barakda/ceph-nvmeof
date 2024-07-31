@@ -8,8 +8,10 @@ ATOM_IMAGE=latest
 pwd;ls -lta
 echo $RUNNER_PASS | sudo -S pwd;ls -lta
 
+TRIMMED_ATOM_REPO_OWNER="${ATOM_REPO_OWNER%?}"
+
 echo "cloning atom repo"
-git clone --branch devel https://$ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git /home/cephnvme/
+git clone --branch devel https://$TRIMMED_ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git /home/cephnvme/
 
 
 while true; do
