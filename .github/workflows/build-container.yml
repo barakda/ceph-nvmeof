@@ -653,7 +653,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Nvmeof Atom cleanup env
+      - name: Atom env initialization
         run: |
           ./tests/atom/atomEnvInit.sh ${{ vars.CONTAINER_REGISTRY_USERNAME }} ${{ github.repository_owner }} ${{ secrets.ATOM_REPO_TOKEN }} ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
 
@@ -668,13 +668,13 @@ jobs:
           docker load < nvmeof.tar
           docker load < nvmeof-cli.tar
 
-      - name: Nvmeof Atom tests run
+      - name: Cluster build and Atom tests run
         if: always() || failure()
         run: |
           . .env
-          ./tests/atom/atomClusterBuildTestsRun.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }} $GITHUB_REPOSITORY ${GITHUB_REF##*/} $NVMEOF_VERSION $CEPH_VERSION
+          ./tests/atom/atomClusterBuildTestsRun.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }} $GITHUB_REPOSITORY ${GITHUB_REF##*/} $NVMEOF_VERSION $CEPH_SHA
 
-      - name: Artifact build and cleanup
+      - name: Atom artifact build
         if: always()
         run: ./tests/atom/cpArtifactAndCleanup.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
 
