@@ -1,11 +1,11 @@
 #!/bin/bash
 
-ATOM_IMAGE=1.0.0
 ATOM_REPO_OWNER=$1
 NVMEOF_REPO_OWNER=$2
 ATOM_REPO_TOKEN=$3
 RUNNER_PASS=$4
-
+ATOM_BRANCH=$5
+ATOM_SHA=$6
 
 pwd;ls -lta
 
@@ -30,7 +30,7 @@ echo "=> Cleanup docker images:"
 echo $RUNNER_PASS | sudo -S sh -c 'docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; docker ps; docker images'
 
 echo "=> Cloning atom repo:"
-git clone --branch devel https://$TRIMMED_ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
+git clone --branch $ATOM_BRANCH https://$TRIMMED_ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
 echo "=> Build atom images based on the cloned repo:"
 docker build -t nvmeof_atom:$ATOM_IMAGE /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
 echo "=> Remove ceph cluster:"
