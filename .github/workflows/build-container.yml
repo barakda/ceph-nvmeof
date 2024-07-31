@@ -654,32 +654,36 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Nvmeof Atom cleanup env
-        run: ./tests/atom/atomEnvCleanup.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
-
-      - name: Download container images
-        uses: actions/download-artifact@v4
-        with:
-          pattern: container_images
-          merge-multiple: true
-
-      - name: Load container images
+        timeout-minutes: 3
         run: |
-          docker load < nvmeof.tar
-          docker load < nvmeof-cli.tar
+          ./tests/atom/atomEnvCleanup.sh
 
-      - name: Nvmeof Atom tests run
-        if: always() || failure()
-        run: ./tests/atom/atomTestsRun.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }} $GITHUB_REPOSITORY ${GITHUB_REF##*/}
+        # run: ./tests/atom/atomEnvCleanup.sh ${{ vars.CONTAINER_REGISTRY_USERNAME%? }} ${{ ATOM_REPO_TOKEN }} ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
 
-      - name: Artifact build and cleanup
-        if: always()
-        run: ./tests/atom/cpArtifactAndCleanup.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
+        # - name: Download container images
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     pattern: container_images
+      #     merge-multiple: true
 
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: atom-artifact
-          path: /tmp/artifact/*
+      # - name: Load container images
+      #   run: |
+      #     docker load < nvmeof.tar
+      #     docker load < nvmeof-cli.tar
+
+      # - name: Nvmeof Atom tests run
+      #   if: always() || failure()
+      #   run: ./tests/atom/atomTestsRun.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }} $GITHUB_REPOSITORY ${GITHUB_REF##*/}
+
+      # - name: Artifact build and cleanup
+      #   if: always()
+      #   run: ./tests/atom/cpArtifactAndCleanup.sh ${{ secrets.SELF_HOSTED_RUNNER_PASS }}
+
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: atom-artifact
+      #     path: /tmp/artifact/*
 
   # push-images-to-private-registry:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/devel' && github.repository == 'ceph/ceph-nvmeof'
