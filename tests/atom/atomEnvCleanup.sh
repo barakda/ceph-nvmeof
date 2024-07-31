@@ -1,9 +1,16 @@
 #!/bin/bash
 
-ATOM_IMAGE=0.0.9946
-VM_PASS=$1
+ATOM_REPO_OWNER=$1
+ATOM_REPO_TOKEN=$2
+RUNNER_PASS=$3
+ATOM_IMAGE=latest
 
-# echo $VM_PASS | sudo -S pwd;ls -lta
+pwd;ls -lta
+echo $RUNNER_PASS | sudo -S pwd;ls -lta
+
+echo "cloning atom repo"
+git clone --branch devel https://$ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git /home/cephnvme/
+
 
 while true; do
     if [ -f "/home/cephnvme/busyServer.txt" ]; then
@@ -19,7 +26,7 @@ done
 
 echo "atom cleanup script run."
 
-echo $VM_PASS | sudo -S docker run -v /root/.ssh:/root/.ssh quay.io/barakda1/nvmeof_atom:$ATOM_IMAGE ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m2'
+echo $RUNNER_PASS | sudo -S docker run -v /root/.ssh:/root/.ssh quay.io/barakda1/nvmeof_atom:$ATOM_IMAGE ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m2'
 
 cleanup_containers() {
     local command=$1
