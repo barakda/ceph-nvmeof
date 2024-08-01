@@ -68,18 +68,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Cleanup remain images after ceph cluster removal:"
+# Cleanup remain images after ceph cluster removal
 HOSTS=("cephnvme-vm9" "cephnvme-vm7" "cephnvme-vm6" "cephnvme-vm1")
 for HOST in "${HOSTS[@]}"; do
-    echo "=> Cleaning up Docker images on $HOST"
+    echo "Cleaning up Docker images on $HOST"
     cleanup_docker_images "$HOST"
     if [ $? -ne 0 ]; then
         echo "Error: Failed to clean up Docker images on $HOST."
     fi
 done
 
-# ssh -o StrictHostKeyChecking=no root@cephnvme-vm9 'sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; sudo docker ps; sudo docker images'
-# ssh -o StrictHostKeyChecking=no root@cephnvme-vm7 'sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; sudo docker ps; sudo docker images'
-# ssh -o StrictHostKeyChecking=no root@cephnvme-vm6 'sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; sudo docker ps; sudo docker images'
-# ssh -o StrictHostKeyChecking=no root@cephnvme-vm1 'sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; sudo docker ps; sudo docker images'
 echo $RUNNER_PASS | sudo -S sh -c 'podman ps -q | xargs -r sudo podman stop; sudo podman ps -q | xargs -r sudo podman rm -f; sudo yes | podman system prune -fa; podman ps; podman images'
