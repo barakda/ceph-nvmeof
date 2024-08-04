@@ -25,7 +25,7 @@ if [ $NVMEOF_REPO_OWNER = "devel" ]; then
 fi
 
 # Remove repo folder
-rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
+rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom/*
 
 # Check if cluster is busy with another run
 while true; do
