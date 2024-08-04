@@ -24,7 +24,7 @@ if [ $NVMEOF_REPO_OWNER = "devel" ]; then
     NVMEOF_REPO_OWNER="ceph"
 fi
 
-# Recreate repo folder
+# Remove atom repo folder
 rm -rf /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/ceph-nvmeof-atom
 ls -lta /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER/
 
@@ -47,6 +47,7 @@ sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo
 # Cloning atom repo
 cd /home/cephnvme/actions-runner-$NVMEOF_REPO_OWNER
 pwd; ls -lta
+echo "git clone --branch $ATOM_BRANCH https://$TRIMMED_ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git"
 git clone --branch $ATOM_BRANCH https://$TRIMMED_ATOM_REPO_OWNER:$ATOM_REPO_TOKEN@github.ibm.com/NVME-Over-Fiber/ceph-nvmeof-atom.git
 pwd; ls -lta
 if [ $? -ne 0 ]; then
