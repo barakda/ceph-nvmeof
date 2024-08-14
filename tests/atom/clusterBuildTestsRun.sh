@@ -35,5 +35,6 @@ sudo docker run \
     --gitHubActionDeployment \
     --dontUseMTLS \
     --skipLbalancingTest \
+    --journalctlToConsole \
     --dontPowerOffCloudVMs noKey \
     --multiIBMCloudServers_m2
