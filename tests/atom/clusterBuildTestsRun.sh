@@ -11,6 +11,7 @@ ATOM_SHA=$3
 #   - Nvmeof cli image use in target (None)
 #   - Number of gateways (4)
 #   - Number of gateways to stop (1)
+#   - Number of gateways after scale down (1)
 #   - Number of subsystems (2)
 #   - Number of namespaces (4)
 #   - Max namespaces per subsystem (1024)
@@ -26,7 +27,7 @@ sudo docker run \
     quay.ceph.io/ceph-ci/ceph:"$CEPH_SHA" \
     quay.io/ceph/nvmeof:"$VERSION" \
     quay.io/ceph/nvmeof-cli:"$VERSION" \
-    None None None None None 4 1 2 4 1024 2 2 200M 0 1 20 \
+    None None None None None 4 1 1 2 4 1024 2 2 200M 0 1 20 \
     --stopNvmeofDaemon \
     --stopNvmeofSystemctl \
     --stopMonLeader \
