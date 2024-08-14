@@ -13,8 +13,9 @@ cleanup_docker_images() {
 EOF
 }
 
-# Remove atom repo folder
+# Remove previous run data
 rm -rf /home/cephnvme/actions-runner-ceph/ceph-nvmeof-atom
+sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m2/*
 
 # Check if cluster is busy with another run
 while true; do
