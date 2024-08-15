@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ATOM_SHA=$1
-ACTION_JOB_URL=$2
+ACTION_URL=$2
 
 cleanup_docker_images() {
     local HOST=$1
@@ -25,7 +25,7 @@ while true; do
         sleep 90
     else
         echo "The server is available for use!"
-        echo $ACTION_JOB_URL > /home/cephnvme/busyServer.txt
+        echo $ACTION_URL > /home/cephnvme/busyServer.txt
         chmod +rx /home/cephnvme/busyServer.txt
         break
     fi
