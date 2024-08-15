@@ -662,7 +662,8 @@ jobs:
       - name: Atom env initialization
         run: |
           . .env
-          ./tests/atom/atomEnvInit.sh $ATOM_SHA 
+          JOB_URL="https://github.com/${{ github.repository }}/runs/${{ github.run_id }}"
+          ./tests/atom/atomEnvInit.sh $ATOM_SHA $JOB_URL
 
       - name: Download container images
         uses: actions/download-artifact@v4
