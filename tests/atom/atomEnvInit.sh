@@ -74,4 +74,10 @@ for HOST in "${HOSTS[@]}"; do
     fi
 done
 
-sudo podman ps -q | xargs -r sudo podman stop; sudo podman ps -q | xargs -r sudo podman rm -f; sudo yes | podman system prune -fa; podman ps; podman images
+echo "Cleaning up Podman containers and images on installer"
+sudo podman ps -q | xargs -r sudo podman stop
+sudo podman ps -q | xargs -r sudo podman rm -f
+sudo yes | podman system prune -fa
+echo "show exist podman images/containers (should be empty)"
+sudo podman ps
+sudo podman images
