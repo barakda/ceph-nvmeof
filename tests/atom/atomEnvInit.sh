@@ -59,8 +59,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove ceph cluster
-cd $RUNNER_FILDER/ceph-nvmeof-atom/ansible
-sudo ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m2'
+docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m2'
 if [ $? -ne 0 ]; then
     echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
     exit 1
@@ -75,6 +74,8 @@ for HOST in "${HOSTS[@]}"; do
         echo "Error: Failed to clean up Docker images on $HOST."
     fi
 done
+
+# sudo podman ps -q | xargs -r sudo podman stop; sudo podman ps -q | xargs -r sudo podman rm -f; sudo yes | podman system prune -fa; podman ps; podman images
 
 echo "Cleaning up Podman containers and images on installer"
 sudo podman ps -q | xargs -r sudo podman stop
