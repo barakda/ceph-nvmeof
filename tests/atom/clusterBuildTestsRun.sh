@@ -38,11 +38,11 @@ echo "sudo docker run \
     --rmNvmeofDaemon \
     --gitHubActionDeployment \
     --dontUseMTLS \
-    --skipLbalancingTest \
+    --skiplbTest \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
     --multiIBMCloudServers_m2"
-    
+
 sudo docker run \
     -v /root/.ssh:/root/.ssh \
     nvmeof_atom:"$ATOM_SHA" \
@@ -57,7 +57,7 @@ sudo docker run \
     --rmNvmeofDaemon \
     --gitHubActionDeployment \
     --dontUseMTLS \
-    --skipLbalancingTest \
+    --skiplbTest \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
     --multiIBMCloudServers_m2
