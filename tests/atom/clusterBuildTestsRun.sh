@@ -44,6 +44,7 @@ echo "sudo docker run \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
     --multiIBMCloudServers_m2"
+
 sudo docker run \
     -v /root/.ssh:/root/.ssh \
     nvmeof_atom:"$ATOM_SHA" \
@@ -61,5 +62,4 @@ sudo docker run \
     --skiplbTest \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
-    --runTestsOnly \
     --multiIBMCloudServers_m2
