@@ -61,4 +61,5 @@ sudo docker run \
     --skiplbTest \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
+    --runTestsOnly \
     --multiIBMCloudServers_m2
