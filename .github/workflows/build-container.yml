@@ -844,7 +844,6 @@ jobs:
   #         make clean
 
   atom:
-    timeout-minutes: 30
     # needs: [build, build-ceph]
     needs: [build]
     # if: github.repository == 'ceph/ceph-nvmeof'
@@ -872,12 +871,14 @@ jobs:
 
       - name: Cluster build and Atom tests run
         if: always() && github.event_name == 'schedule'
+        timeout-minutes: 30
         run: |
           . .env
           ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
 
       - name: Cluster build and Atom (nightly) tests run
         if: always() && github.event_name != 'schedule'
+        timeout-minutes: 30
         run: |
           . .env
           ./tests/atom/nightlyBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
