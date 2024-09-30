@@ -871,14 +871,12 @@ jobs:
 
       - name: Cluster build and Atom tests run
         if: always() && github.event_name == 'schedule'
-        timeout-minutes: 90
         run: |
           . .env
           ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
 
       - name: Cluster build and Atom (nightly) tests run
         if: always() && github.event_name != 'schedule'
-        timeout-minutes: 270
         run: |
           . .env
           ./tests/atom/nightlyBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA

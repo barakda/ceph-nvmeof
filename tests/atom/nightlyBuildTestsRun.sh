@@ -49,7 +49,7 @@ sudo docker run \
     -v /root/.ssh:/root/.ssh \
     nvmeof_atom:"$ATOM_SHA" \
     python3 cephnvme_atom.py \
-    quay.ceph.io/ceph-ci/ceph:"$CEPH_SHA" \
+    quay.ceph.io/ceph-ci/ceph:6587671abff4b278b7cab96eec8abf53ea75886a \
     quay.io/ceph/nvmeof:"$VERSION" \
     quay.io/ceph/nvmeof-cli:"$VERSION" \
     None None None None None None 1 1 4 3 1 10 90 1024 6 2 200M 0 1 20 10 1 \
