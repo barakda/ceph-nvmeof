@@ -2,7 +2,7 @@
 
 ATOM_SHA=$1
 ACTION_URL=$2
-RUNNER_FILDER='/home/cephnvme/actions-runner-ceph'
+RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 
 cleanup_docker_images() {
     local HOST=$1
