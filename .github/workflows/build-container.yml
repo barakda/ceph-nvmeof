@@ -646,8 +646,8 @@ jobs:
 
   atom:
     needs: [build, build-ceph]
-    if: github.repository == 'ceph/ceph-nvmeof'
-    runs-on: ibmcloud-1
+    # if: github.repository == 'ceph/ceph-nvmeof'
+    runs-on: ibmcloud-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
