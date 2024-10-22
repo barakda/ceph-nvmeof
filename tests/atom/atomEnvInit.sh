@@ -17,7 +17,7 @@ EOF
 
 # Remove previous run data
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
-sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m2/*
+sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
 
 # Check if cluster is busy with another run
 while true; do
@@ -59,7 +59,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove ceph cluster
-docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m2'
+docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
 if [ $? -ne 0 ]; then
     echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
     exit 1

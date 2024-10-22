@@ -42,4 +42,4 @@ sudo docker run \
     --skiplbTest \
     --journalctlToConsole \
     --dontPowerOffCloudVMs noKey noKey \
-    --multiIBMCloudServers_m2
+    --multiIBMCloudServers_m6
