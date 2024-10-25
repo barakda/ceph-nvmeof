@@ -656,7 +656,14 @@ jobs:
         run: |
           . .env
           ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "------> $ACTION_URL"
+          echo "------> ./tests/atom/atomEnvInit.sh $ATOM_SHA $ACTION_URL"
           ./tests/atom/atomEnvInit.sh $ATOM_SHA $ACTION_URL
+
+      - name: Check downloaded files
+        run: |
+          echo "------>Checking downloaded tar files..."
+          ls -l container_images_nvmeof || echo "------>No files found."
 
       - name: Download container images
         uses: actions/download-artifact@v4

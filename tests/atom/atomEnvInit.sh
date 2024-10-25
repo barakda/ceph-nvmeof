@@ -15,8 +15,8 @@ RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 # EOF
 # }
 
-# # Remove previous run data
-# rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
+# Remove previous run data
+rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
 # sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
 
 # Check if cluster is busy with another run
