@@ -644,10 +644,10 @@ jobs:
           make down
           make clean
 
-  atom:
+  atom_init:
     needs: [build, build-ceph]
     # if: github.repository == 'ceph/ceph-nvmeof'
-    runs-on: atomRunner
+    runs-on: ibmcloud-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -656,14 +656,7 @@ jobs:
         run: |
           . .env
           ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          echo "------> $ACTION_URL"
-          echo "------> ./tests/atom/atomEnvInit.sh $ATOM_SHA $ACTION_URL"
           ./tests/atom/atomEnvInit.sh $ATOM_SHA $ACTION_URL
-
-      - name: Check downloaded files
-        run: |
-          echo "------>Checking downloaded tar files..."
-          ls -l container_images_nvmeof || echo "------>No files found."
 
       - name: Download container images
         uses: actions/download-artifact@v4
@@ -676,6 +669,11 @@ jobs:
           docker load < nvmeof.tar
           docker load < nvmeof-cli.tar
 
+  atom:
+    needs: [build, build-ceph]
+    # if: github.repository == 'ceph/ceph-nvmeof'
+    runs-on: atomRunner
+    steps:
       - name: Cluster build and Atom tests run
         if: always() || failure()
         run: |
