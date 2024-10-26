@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-
 ACTION_URL=$1
 ATOM_SHA=$2
 RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'

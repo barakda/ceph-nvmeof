@@ -674,8 +674,11 @@ jobs:
     # if: github.repository == 'ceph/ceph-nvmeof'
     runs-on: atomRunner
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Cluster build and Atom tests run
-        if: always() || failure()
+        # if: always() || failure()
         run: |
           . .env
           ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA

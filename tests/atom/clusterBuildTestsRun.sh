@@ -10,6 +10,7 @@ ATOM_SHA=$3
 RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 
 # Remove previous run data
+hostname
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
 sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
 
