@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/bash -x
 
-# ATOM_SHA=$1
+
 ACTION_URL=$1
-# RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
+ATOM_SHA=$2
+RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 
 cleanup_docker_images() {
     local HOST=$1
@@ -15,9 +16,9 @@ cleanup_docker_images() {
 EOF
 }
 
-# # Remove previous run data
-# rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
-# sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
+# Remove previous run data
+rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
+sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
 
 # Check if cluster is busy with another run
 while true; do
@@ -35,35 +36,35 @@ done
 # Cleanup docker images
 sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; docker ps; docker images
 
-# # Cloning atom repo
-# cd $RUNNER_FILDER
-# git clone git@github.ibm.com:NVME-Over-Fiber/ceph-nvmeof-atom.git
-# if [ $? -ne 0 ]; then
-#     echo "Error: Failed to clone the atom repository."
-#     exit 1
-# fi
+# Cloning atom repo
+cd $RUNNER_FILDER
+git clone git@github.ibm.com:NVME-Over-Fiber/ceph-nvmeof-atom.git
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to clone the atom repository."
+    exit 1
+fi
 
-# # Switch to given SHA
-# cd ceph-nvmeof-atom
-# git checkout $ATOM_SHA
-# if [ $? -ne 0 ]; then
-#     echo "Error: Failed to checkout the specified SHA."
-#     exit 1
-# fi
+# Switch to given SHA
+cd ceph-nvmeof-atom
+git checkout $ATOM_SHA
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to checkout the specified SHA."
+    exit 1
+fi
 
-# # Build atom images based on the cloned repo
-# docker build -t nvmeof_atom:$ATOM_SHA $RUNNER_FILDER/ceph-nvmeof-atom
-# if [ $? -ne 0 ]; then
-#     echo "Error: Failed to build Docker image."
-#     exit 1
-# fi
+# Build atom images based on the cloned repo
+docker build -t nvmeof_atom:$ATOM_SHA .
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to build Docker image."
+    exit 1
+fi
 
-# # Remove ceph cluster
-# docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
-# if [ $? -ne 0 ]; then
-#     echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
-#     exit 1
-# fi
+# Remove ceph cluster
+docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
+    exit 1
+fi
 
 # Cleanup remain images after ceph cluster removal
 HOSTS=("cephnvme-vm9" "cephnvme-vm7" "cephnvme-vm6" "cephnvme-vm1")

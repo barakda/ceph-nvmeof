@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 VERSION=$1
 if [ "$2" = "latest" ]; then
@@ -12,7 +12,6 @@ RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 # Remove previous run data
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
 sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
-
 
 # Cloning atom repo
 cd $RUNNER_FILDER
@@ -31,16 +30,9 @@ if [ $? -ne 0 ]; then
 fi
 
 # Build atom images based on the cloned repo
-docker build -t nvmeof_atom:$ATOM_SHA $RUNNER_FILDER/ceph-nvmeof-atom
+docker build -t nvmeof_atom:$ATOM_SHA .
 if [ $? -ne 0 ]; then
     echo "Error: Failed to build Docker image."
-    exit 1
-fi
-
-# Remove ceph cluster
-docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
     exit 1
 fi
 
