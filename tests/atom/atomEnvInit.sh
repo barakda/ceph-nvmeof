@@ -4,20 +4,20 @@ ATOM_SHA=$1
 ACTION_URL=$2
 RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 
-# cleanup_docker_images() {
-#     local HOST=$1
-#     ssh -o StrictHostKeyChecking=no root@$HOST << EOF
-#     sudo docker ps -q | xargs -r sudo docker stop
-#     sudo docker ps -q | xargs -r sudo docker rm -f
-#     sudo yes | sudo docker system prune -fa
-#     sudo docker ps
-#     sudo docker images
-# EOF
-# }
+cleanup_docker_images() {
+    local HOST=$1
+    ssh -o StrictHostKeyChecking=no root@$HOST << EOF
+    sudo docker ps -q | xargs -r sudo docker stop
+    sudo docker ps -q | xargs -r sudo docker rm -f
+    sudo yes | sudo docker system prune -fa
+    sudo docker ps
+    sudo docker images
+EOF
+}
 
 # Remove previous run data
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
-# sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
+sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
 
 # Check if cluster is busy with another run
 while true; do
@@ -32,8 +32,8 @@ while true; do
     fi
 done
 
-# # Cleanup docker images
-# sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; docker ps; docker images
+# Cleanup docker images
+sudo docker ps -q | xargs -r sudo docker stop; sudo docker ps -q | xargs -r sudo docker rm -f; sudo yes | docker system prune -fa; docker ps; docker images
 
 # Cloning atom repo
 cd $RUNNER_FILDER
@@ -58,28 +58,28 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# # Remove ceph cluster
-# docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
-# if [ $? -ne 0 ]; then
-#     echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
-#     exit 1
-# fi
+# Remove ceph cluster
+docker run -v /root/.ssh:/root/.ssh nvmeof_atom:$ATOM_SHA ansible-playbook -i custom_inventory.ini cephnvmeof_remove_cluster.yaml --extra-vars 'SELECTED_ENV=multiIBMCloudServers_m6'
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to run cephnvmeof_remove_cluster ansible-playbook."
+    exit 1
+fi
 
-# # Cleanup remain images after ceph cluster removal
-# HOSTS=("cephnvme-vm9" "cephnvme-vm7" "cephnvme-vm6" "cephnvme-vm1")
-# for HOST in "${HOSTS[@]}"; do
-#     echo "Cleaning up Docker images on $HOST"
-#     cleanup_docker_images "$HOST"
-#     if [ $? -ne 0 ]; then
-#         echo "Error: Failed to clean up Docker images on $HOST."
-#     fi
-# done
+# Cleanup remain images after ceph cluster removal
+HOSTS=("cephnvme-vm9" "cephnvme-vm7" "cephnvme-vm6" "cephnvme-vm1")
+for HOST in "${HOSTS[@]}"; do
+    echo "Cleaning up Docker images on $HOST"
+    cleanup_docker_images "$HOST"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to clean up Docker images on $HOST."
+    fi
+done
 
-# echo "Cleaning up Podman containers and images on installer"
-# sudo podman ps -q | xargs -r sudo podman stop
-# sudo podman ps -q | xargs -r sudo podman rm -f
-# sudo podman rmi -f $(sudo podman images -q)
-# sudo yes | podman system prune -fa
-# echo "show exist podman images/containers (should be empty)"
-# sudo podman ps
-# sudo podman images
+echo "Cleaning up Podman containers and images on installer"
+sudo podman ps -q | xargs -r sudo podman stop
+sudo podman ps -q | xargs -r sudo podman rm -f
+sudo podman rmi -f $(sudo podman images -q)
+sudo yes | podman system prune -fa
+echo "show exist podman images/containers (should be empty)"
+sudo podman ps
+sudo podman images
