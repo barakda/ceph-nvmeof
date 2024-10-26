@@ -670,7 +670,7 @@ jobs:
           docker load < nvmeof-cli.tar
 
   atom:
-    needs: [build, build-ceph]
+    needs: [atom_init]
     # if: github.repository == 'ceph/ceph-nvmeof'
     runs-on: atomRunner
     steps:
