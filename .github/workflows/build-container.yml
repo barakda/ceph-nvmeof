@@ -691,7 +691,7 @@ jobs:
         if: always()
         with:
           name: atom-artifact
-          path: /tmp/artifact/*
+          path: /home/cephnvme/artifact/*
 
   push-images-to-ceph-registry:
     if: github.event_name == 'release'
