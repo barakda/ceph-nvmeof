@@ -644,34 +644,35 @@ jobs:
   #         make down
   #         make clean
 
-  atom_init:
-    needs: [build, build-ceph]
-    # if: github.repository == 'ceph/ceph-nvmeof'
-    runs-on: ibmcloud-2
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # atom_init:
+  #   needs: [build, build-ceph]
+  #   # if: github.repository == 'ceph/ceph-nvmeof'
+  #   runs-on: ibmcloud-2
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Atom env initialization
-        run: |
-          . .env
-          ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          ./tests/atom/atomEnvInit.sh $ACTION_URL $ATOM_SHA
+  #     - name: Atom env initialization
+  #       run: |
+  #         . .env
+  #         ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  #         ./tests/atom/atomEnvInit.sh $ACTION_URL $ATOM_SHA
 
-      - name: Download container images
-        uses: actions/download-artifact@v4
-        with:
-          pattern: container_images_nvmeof
-          merge-multiple: true
+  #     - name: Download container images
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         pattern: container_images_nvmeof
+  #         merge-multiple: true
 
-      - name: Load container images
-        run: |
-          docker load < nvmeof.tar
-          docker load < nvmeof-cli.tar
+  #     - name: Load container images
+  #       run: |
+  #         docker load < nvmeof.tar
+  #         docker load < nvmeof-cli.tar
 
   atom:
-    needs: [atom_init]
+    # needs: [atom_init]
     # if: github.repository == 'ceph/ceph-nvmeof'
+    needs: [build, build-ceph]
     runs-on: atomRunner
     steps:
       - name: Checkout code
