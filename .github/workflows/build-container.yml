@@ -688,9 +688,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Install tar if not already installed (optional)
-      - name: Ensure tar is installed
-        run: sudo yum install -y tar
+      # # Step 2: Install tar if not already installed (optional)
+      # - name: Ensure tar is installed
+      #   run: sudo yum install -y tar
 
       # Step 3: Update permissions on artifact directory
       - name: Update permissions
