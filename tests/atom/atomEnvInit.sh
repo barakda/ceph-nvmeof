@@ -17,7 +17,8 @@ EOF
 
 # Remove previous run data
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
-sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
+# sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
+# sudo ls -lta /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6
 
 # Check if cluster is busy with another run
 while true; do

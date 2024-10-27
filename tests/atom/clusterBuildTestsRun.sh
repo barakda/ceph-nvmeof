@@ -13,6 +13,7 @@ RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
 hostname
 rm -rf $RUNNER_FILDER/ceph-nvmeof-atom
 sudo rm -rf /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6/*
+sudo ls -lta /root/.ssh/atom_backup/artifact/multiIBMCloudServers_m6
 
 # Cloning atom repo
 cd $RUNNER_FILDER
