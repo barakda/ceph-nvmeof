@@ -684,27 +684,41 @@ jobs:
       #     . .env
       #     ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
 
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: atom-artifact
-          path: /tmp/artifact/*
-          
-      # # Step 1: Checkout repository
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # # # Step 2: Install tar if not already installed (optional)
-      # # - name: Ensure tar is installed
-      # #   run: sudo yum install -y tar
+      # # Step 2: Install tar if not already installed (optional)
+      # - name: Ensure tar is installed
+      #   run: sudo yum install -y tar
 
-      # # Step 3: Update permissions on artifact directory
-      # - name: Update permissions
-      #   run: sudo chmod -R 755 /home/cephnvme/artifact
+      # Step 3: Update permissions on artifact directory
+      - name: Update permissions
+        run: sudo chmod -R 755 /home/cephnvme/artifact
 
-      # # Step 4: Compress the artifact files to reduce upload size
-      # - name: Archive artifact
-      #   run: tar -czf /home/cephnvme/artifact.tar.gz -C /home/cephnvme artifact
+      # Step 4: Compress the artifact files to reduce upload size
+      - name: Archive artifact
+        run: tar -czf /home/cephnvme/artifact.tar.gz -C /home/cephnvme artifact
+
+      - name: Upload artifact with retries
+        run: |
+          MAX_RETRIES=5
+          COUNT=0
+          SUCCESS=false
+
+          while [ $COUNT -lt $MAX_RETRIES ]; do
+            echo "Attempting to upload artifact... (Attempt $((COUNT + 1)))"
+            # Attempt to upload the artifact
+            if ! act upload-artifact --name atom-artifact --path /home/cephnvme/artifact.tar.gz; then
+              echo "Failed to upload artifact. Retrying in 5 seconds..."
+              sleep 5
+            else
+              SUCCESS=true
+              echo "Artifact uploaded successfully."
+              break
+            fi
+            COUNT=$((COUNT + 1))
+          done
 
       # # Step 5: Upload the compressed artifact
       # - name: Upload artifact
@@ -713,7 +727,6 @@ jobs:
       #   with:
       #     name: atom-artifact
       #     path: /home/cephnvme/artifact.tar.gz
-      #     overwrite: true
 
       # - uses: actions/upload-artifact@v4
       #   if: always()
