@@ -703,7 +703,7 @@ jobs:
       - name: Upload artifact with retries
         id: upload_artifact
         run: |
-          MAX_RETRIES=5
+          MAX_RETRIES=30
           COUNT=0
           SUCCESS=false
 
