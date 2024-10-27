@@ -701,6 +701,7 @@ jobs:
         run: tar -czf /home/cephnvme/artifact.tar.gz -C /home/cephnvme artifact
 
       - name: Upload artifact with retries
+        id: upload_artifact
         run: |
           MAX_RETRIES=5
           COUNT=0
@@ -708,8 +709,8 @@ jobs:
 
           while [ $COUNT -lt $MAX_RETRIES ]; do
             echo "Attempting to upload artifact... (Attempt $((COUNT + 1)))"
-            # Attempt to upload the artifact
-            if ! act upload-artifact --name atom-artifact --path /home/cephnvme/artifact.tar.gz; then
+            # Try to upload the artifact
+            if ! gh actions upload-artifact --name atom-artifact --path /home/cephnvme/artifact.tar.gz; then
               echo "Failed to upload artifact. Retrying in 5 seconds..."
               sleep 5
             else
@@ -719,6 +720,12 @@ jobs:
             fi
             COUNT=$((COUNT + 1))
           done
+
+          if [ "$SUCCESS" = false ]; then
+            echo "Artifact upload failed after $MAX_RETRIES attempts."
+            exit 1
+          fi
+
 
       # # Step 5: Upload the compressed artifact
       # - name: Upload artifact
