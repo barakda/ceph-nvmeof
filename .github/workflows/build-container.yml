@@ -684,15 +684,35 @@ jobs:
       #     . .env
       #     ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
 
-      - name: Atom artifact build
-        if: always()
-        run: ./tests/atom/cpArtifactAndCleanup.sh
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/upload-artifact@v4
+      # Step 2: Install tar if not already installed (optional)
+      - name: Ensure tar is installed
+        run: sudo yum install -y tar
+
+      # Step 3: Update permissions on artifact directory
+      - name: Update permissions
+        run: sudo chmod -R 755 /home/cephnvme/artifact
+
+      # Step 4: Compress the artifact files to reduce upload size
+      - name: Archive artifact
+        run: tar -czf /home/cephnvme/artifact.tar.gz -C /home/cephnvme artifact
+
+      # Step 5: Upload the compressed artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: atom-artifact
-          path: /home/cephnvme/artifact/*
+          path: /home/cephnvme/artifact.tar.gz
+
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: atom-artifact
+      #     path: /home/cephnvme/artifact.tar.gz
 
   # push-images-to-ceph-registry:
   #   if: github.event_name == 'release'
