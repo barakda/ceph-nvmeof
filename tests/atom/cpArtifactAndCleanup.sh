@@ -1,4 +1,4 @@
-!/bin/bash -x
+!/bin/bash
 
 sudo rm -rf /home/cephnvme/artifact/*
 sudo ls -lta /home/cephnvme/artifact

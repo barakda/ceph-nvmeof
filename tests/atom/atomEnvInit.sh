@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 ACTION_URL=$1
 ATOM_SHA=$2
