@@ -681,7 +681,7 @@ jobs:
         if: always() || failure()
         run: |
           . .env
-          ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA
+          ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA $ACTION_URL
 
       - name: Atom artifact build
         if: always()

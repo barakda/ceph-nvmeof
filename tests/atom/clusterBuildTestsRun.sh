@@ -7,7 +7,21 @@ else
     CEPH_SHA=$2
 fi
 ATOM_SHA=$3
+ACTION_URL=$4
 RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
+
+# Check if cluster is busy with another run
+while true; do
+    if [ -f "/home/cephnvme/busyServer.txt" ]; then
+        echo "The server is busy with another github action job, please wait..."
+        sleep 90
+    else
+        echo "The server is available for use!"
+        echo $ACTION_URL > /home/cephnvme/busyServer.txt
+        chmod +rx /home/cephnvme/busyServer.txt
+        break
+    fi
+done
 
 # Remove previous run data
 hostname
