@@ -8,7 +8,7 @@ else
 fi
 ATOM_SHA=$3
 ACTION_URL=$4
-RUNNER_FILDER='/home/cephnvme/actions-runner-barakda'
+RUNNER_FILDER='/home/cephnvme/actions-runner-ceph'
 
 # Check if cluster is busy with another run
 while true; do
