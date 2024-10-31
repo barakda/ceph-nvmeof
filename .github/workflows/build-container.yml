@@ -652,28 +652,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Atom env initialization
-      #   run: |
-      #     . .env
-      #     ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-      #     ./tests/atom/atomEnvInit.sh $ACTION_URL $ATOM_SHA
-
       - name: Download container images
         uses: actions/download-artifact@v4
         with:
           pattern: container_images_nvmeof
           merge-multiple: true
 
-      # - name: Load container images
+      # - name: Cluster build and Atom tests run
+      #   if: always() || failure()
       #   run: |
-      #     docker load < nvmeof.tar
-      #     docker load < nvmeof-cli.tar
+      #     . .env
+      #     ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA $ACTION_URL
 
       - name: Cluster build and Atom tests run
-        if: always() || failure()
+        if: always() && github.event_name != 'schedule'
         run: |
           . .env
           ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA $ACTION_URL
+            
+      - name: Cluster build and Atom (nightly) tests run
+        if: always() && github.event_name == 'schedule'
+        run: |
+          . .env
+          ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA $ACTION_URL 'nightly'
+
 
       - name: Atom artifact build
         if: always()
