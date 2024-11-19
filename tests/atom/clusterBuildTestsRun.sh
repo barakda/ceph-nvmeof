@@ -109,7 +109,6 @@ else
         --rmNvmeofDaemon \
         --redeployGWs \
         --gitHubActionDeployment \
-        --dontUseMTLS \
         --skiplbTest \
         --journalctlToConsole \
         --dontPowerOffCloudVMs noKey noKey \
