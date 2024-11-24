@@ -112,6 +112,7 @@ else
         --redeployGWs \
         --gitHubActionDeployment \
         --dontUseHUGEPAGES \
+        --dontUseMTLS \
         --skiplbTest \
         --journalctlToConsole \
         --dontPowerOffCloudVMs noKey noKey \
