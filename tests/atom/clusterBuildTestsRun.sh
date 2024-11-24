@@ -77,10 +77,11 @@ if [ "$5" != "nightly" ]; then
         -v /root/.ssh:/root/.ssh \
         nvmeof_atom:"$ATOM_SHA" \
         python3 cephnvme_atom.py \
+        nvmeof \
         quay.ceph.io/ceph-ci/ceph:"$CEPH_SHA" \
         quay.io/ceph/nvmeof:"$VERSION" \
         quay.io/ceph/nvmeof-cli:"$VERSION" \
-        None None None None None None 1 1 4 1 1 2 4 1024 2 2 200M 0 1 20 10 1 nvmeof \
+        None None None None None None 1 1 4 1 1 2 4 1024 2 2 200M 0 1 20 10 1 \
         --stopNvmeofDaemon \
         --stopNvmeofSystemctl \
         --stopMonLeader \
@@ -98,10 +99,11 @@ else
         -v /root/.ssh:/root/.ssh \
         nvmeof_atom:"$ATOM_SHA" \
         python3 cephnvme_atom.py \
+        nvmeof \
         quay.ceph.io/ceph-ci/ceph:"$CEPH_SHA" \
         quay.io/ceph/nvmeof:"$VERSION" \
         quay.io/ceph/nvmeof-cli:"$VERSION" \
-        None None None None None None 1 1 4 1 1 10 90 1024 6 2 200M 0 1 20 10 1 nvmeof \
+        None None None None None None 1 1 4 1 1 10 90 1024 6 2 200M 0 1 20 10 1 \
         --stopNvmeofDaemon \
         --stopNvmeofSystemctl \
         --stopMonLeader \
