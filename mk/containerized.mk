@@ -2,8 +2,12 @@
 
 # Docker and docker-compose specific commands
 DOCKER = docker
-DOCKER_COMPOSE = docker-compose ## Docker-compose command
-DOCKER_COMPOSE_COMMANDS = pull build up run exec ps top images logs port \
+# Require docker-compose v2 to support multi-platform build option 'services.xxx.build.platforms'
+DOCKER_COMPOSE != DOCKER=$$(command -v docker) && $$DOCKER compose version > /dev/null && printf "%s compose\n" $$DOCKER
+ifndef DOCKER_COMPOSE
+$(error DOCKER_COMPOSE command not found. Please install from: https://docs.docker.com/compose/install/)
+endif
+DOCKER_COMPOSE_COMMANDS = pull build run exec ps top images logs port \
 	pause unpause stop restart down events
 
 OPTS ?= ## Docker-compose subcommand options
