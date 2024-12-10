@@ -14,8 +14,8 @@ CMD []
 # Base image for NVMEOF_TARGET=gateway (nvmeof-gateway)
 FROM quay.io/ceph/spdk:${NVMEOF_SPDK_VERSION:-NULL} AS base-gateway
 RUN \
-    --mount=type=cache,target=/var/cache/dnf \
-    --mount=type=cache,target=/var/lib/dnf \
+    # --mount=type=cache,target=/var/cache/dnf \
+    # --mount=type=cache,target=/var/lib/dnf \
     dnf install -y python3-rados
 ENTRYPOINT ["python3", "-m", "control"]
 CMD ["-c", "/src/ceph-nvmeof.conf"]
@@ -25,8 +25,8 @@ CMD ["-c", "/src/ceph-nvmeof.conf"]
 FROM base-$NVMEOF_TARGET AS python-intermediate
 
 RUN \
-    --mount=type=cache,target=/var/cache/dnf \
-    --mount=type=cache,target=/var/lib/dnf \
+    # --mount=type=cache,target=/var/cache/dnf \
+    # --mount=type=cache,target=/var/lib/dnf \
     dnf update -y
 
 ENV PYTHONUNBUFFERED=1 \
@@ -113,8 +113,8 @@ ENV PDM_CHECK_UPDATE=0
 
 # https://pdm.fming.dev/latest/usage/advanced/#use-pdm-in-a-multi-stage-dockerfile
 RUN \
-    --mount=type=cache,target=/var/cache/dnf \
-    --mount=type=cache,target=/var/lib/dnf \
+    # --mount=type=cache,target=/var/cache/dnf \
+    # --mount=type=cache,target=/var/lib/dnf \
     dnf install -y python3-pip
 RUN \
     --mount=type=cache,target=/root/.cache/pip \
