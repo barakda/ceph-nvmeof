@@ -667,15 +667,25 @@ jobs:
   #          
       - name: Cluster build and Atom nightly tests run
   #      if: always() && github.event_name == 'schedule'
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true 
         run: |
+          set +e 
           . .env
           ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           ./tests/atom/clusterBuildTestsRun.sh $NVMEOF_VERSION $CEPH_SHA $ATOM_SHA $ACTION_URL 'nightly'
+          EXIT_CODE=$?
+          echo "Script exited with code $EXIT_CODE"
+          if [ "$EXIT_CODE" -ne 0 ]; then
+            echo "Cluster build and tests failed!"
+            exit $EXIT_CODE
+          fi
 
       - name: Atom artifact build
         if: always()
         run: ./tests/atom/cpArtifactAndCleanup.sh
-  
+ 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
