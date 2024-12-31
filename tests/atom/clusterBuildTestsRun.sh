@@ -80,7 +80,6 @@ if [ "$5" != "nightly" ]; then
         --nvmeof-daemon-remove \
         --redeploy-gws \
         --github-action-deployment \
-        --skip-ns-rebalancing-test \
         --journalctl-to-console \
         --dont-power-off-cloud-vms \
         --env=m6
@@ -101,7 +100,7 @@ else
         --subsystem-num=118 \
         --ns-num=8 \
         --subsystem-max-ns-num=1024 \
-        --failover-num=6 \
+        --failover-num=10 \
         --failover-num-after-upgrade=2 \
         --rbd-size=200M \
         --fio-devices-num=1 \
@@ -116,7 +115,6 @@ else
         --redeploy-gws \
         --github-action-deployment \
         --dont-use-mtls \
-        --skip-ns-rebalancing-test \
         --journalctl-to-console \
         --dont-power-off-cloud-vms \
         --dont-use-hugepages \
