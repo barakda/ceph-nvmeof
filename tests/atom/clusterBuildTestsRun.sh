@@ -100,7 +100,7 @@ else
         --subsystem-num=118 \
         --ns-num=8 \
         --subsystem-max-ns-num=1024 \
-        --failover-num=10 \
+        --failover-num=2 \
         --failover-num-after-upgrade=2 \
         --rbd-size=200M \
         --fio-devices-num=1 \
