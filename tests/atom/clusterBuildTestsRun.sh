@@ -80,7 +80,6 @@ if [ "$5" != "nightly" ]; then
         --nvmeof-daemon-remove \
         --redeploy-gws \
         --github-action-deployment \
-	--dont-use-mtls \
         --journalctl-to-console \
         --dont-power-off-cloud-vms \
         --env=m6
