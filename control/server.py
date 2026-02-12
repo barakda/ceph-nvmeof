@@ -1042,6 +1042,14 @@ class GatewayServer:
 
     def gateway_rpc_caller(self, requests, is_add_req, break_interval):
         """Passes RPC requests to gateway service."""
+
+        def is_a_visibility_change_key(key: str):
+            if key.startswith(GatewayState.NAMESPACE_VISIBILITY_ON_PREFIX):
+                return True
+            elif key.startswith(GatewayState.NAMESPACE_VISIBILITY_OFF_PREFIX):
+                return True
+            return False
+
         start_time = 0
         for key, val in requests.items():
             start_time = self._sleep_if_needed(break_interval, start_time)
@@ -1087,6 +1095,24 @@ class GatewayServer:
                     req = json_format.Parse(val, pb2.namespace_set_qos_req(),
                                             ignore_unknown_fields=True)
                     self.gateway_rpc.namespace_set_qos_limits(req)
+                else:
+                    # Do nothing, this is covered by the delete namespace code
+                    pass
+            elif key.startswith(GatewayState.NAMESPACE_REFRESH_SIZE_PREFIX):
+                if is_add_req:
+                    (ns_nqn, ns_nsid) = self.gateway_state.break_namespace_refresh_size_key(key)
+                    if not ns_nqn or not ns_nsid:
+                        self.logger.error(f"Error parsing key {key} to get subsystem "
+                                          f"NQN and namespace ID")
+                    elif self.gateway_state.is_initialization_over():
+                        req = pb2.namespace_resize_req(subsystem_nqn=ns_nqn,
+                                                       nsid=ns_nsid,
+                                                       new_size=0)
+                        self.gateway_rpc.namespace_resize(req)
+                    else:
+                        # No need to refresh size if the gateway is still coming up
+                        self.logger.info(f"Will not refresh size of namespace {ns_nsid} in "
+                                         f"subsystem {ns_nqn} as the gateway is coming up")
                 else:
                     # Do nothing, this is covered by the delete namespace code
                     pass
@@ -1141,7 +1167,7 @@ class GatewayServer:
                     req = json_format.Parse(val, pb2.namespace_change_load_balancing_group_req(),
                                             ignore_unknown_fields=True)
                     self.gateway_rpc.namespace_change_load_balancing_group(req)
-            elif key.startswith(GatewayState.NAMESPACE_VISIBILITY_PREFIX):
+            elif is_a_visibility_change_key(key):
                 if is_add_req:
                     req = json_format.Parse(val, pb2.namespace_change_visibility_req(),
                                             ignore_unknown_fields=True)
@@ -1151,6 +1177,11 @@ class GatewayServer:
                     req = json_format.Parse(val, pb2.namespace_set_rbd_trash_image_req(),
                                             ignore_unknown_fields=True)
                     self.gateway_rpc.namespace_set_rbd_trash_image(req)
+            elif key.startswith(GatewayState.NAMESPACE_AUTO_RESIZE_PREFIX):
+                if is_add_req:
+                    req = json_format.Parse(val, pb2.namespace_set_auto_resize_req(),
+                                            ignore_unknown_fields=True)
+                    self.gateway_rpc.namespace_set_auto_resize(req)
             elif key.startswith(GatewayState.NAMESPACE_HOST_PREFIX):
                 if is_add_req:
                     req = json_format.Parse(val, pb2.namespace_add_host_req(),
