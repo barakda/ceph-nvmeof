@@ -68,31 +68,35 @@ Every command is traced on its own line, followed by what the machine said
 back, then the verdict, and — when it failed — why:
 
 ```
->>> CMD: docker compose exec -T ceph ceph nvmeof subsystem add --nqn nqn.2016-06.io.spdk:x_y --server-address 192.168.13.3
-<<< OUT (exit 22):
-    [stderr] Error EINVAL: Invalid NQN "nqn.2016-06.io.spdk:x_y", contains invalid characters
+------------------------------------------------------------------------------
+docker compose exec -T ceph ceph nvmeof subsystem add --nqn nqn...:x_y --server-address 192.168.13.3
+------------------------------------------------------------------------------
+    [stderr] Error EINVAL: Invalid NQN "nqn...:x_y", contains invalid characters
+    (exit status 22)
 ❌ subsystem add with only --nqn
-   exit status 22
     ROOT CAUSE: A name contains "_". Names become OMAP key elements, where "_" is
                 the delimiter, so GatewayState.is_key_element_valid() rejects them.
                 Use "-" instead.
 ```
 
-The `>>> CMD:` line is the whole command, `docker compose exec` prefix and
-all, so it can be copied straight out of the console and pasted into a shell
-at the repository root — no editing, no guessing at the gateway address.
+The line between the rules is the whole command, `docker compose exec` prefix
+and all, so it can be copied straight out of the console and pasted into a
+shell at the repository root — no editing, no guessing at the gateway address.
 Arguments are quoted where they need to be, so something like
 `--model-name "gh runner model"` survives the round trip as one argument.
 
 It is also built from the argv that actually runs, rather than being written
 out a second time next to it, so the line cannot drift from what happened.
 
-`grep '>>> CMD:'` over a run is the list of commands it covered:
+The exit status is shown only when it is non-zero; on success the output
+speaks for itself.
+
+Picking a run apart:
 
 ```bash
-grep '>>> CMD:' ci.log | sed 's/.*ceph nvmeof /ceph nvmeof /' | sort -u
-grep -E '^(✅|❌)' ci.log                          # every verdict
-grep -A3 'ROOT CAUSE' ci.log                      # the failures, explained
+grep -o 'ceph nvmeof .*' ci.log | sort -u     # which commands ran
+grep -E '^(✅|❌)' ci.log                       # every verdict
+grep -A3 'ROOT CAUSE' ci.log                   # the failures, explained
 ```
 
 The trace goes to file descriptor 3, not stdout, so that `out=$(nvmeof_json
@@ -118,9 +122,9 @@ nvmeof_json subsystem list | json_get '.subsystems[].nqn'
 nvme_gw_cmd show rbd ''
 ```
 
-Nothing requires the helpers, though. Each is a thin wrapper, and the
-`>>> CMD:` line in the log is already the complete command — copy it out of
-the console and run it as is:
+Nothing requires the helpers, though. Each is a thin wrapper, and the command
+line in the log is already complete — copy it out of the console and run it
+as is:
 
 ```bash
 docker compose exec -T ceph ceph nvmeof gateway info --server-address 192.168.13.3

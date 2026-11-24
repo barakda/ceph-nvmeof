@@ -15,7 +15,8 @@
 GH_RUNNER_COMMON_SOURCED=1
 
 printf -v _bar '%130s' ''
-SECBAR=${_bar// /#}
+SECBAR=${_bar// /#}     # section titles
+CMDBAR=${_bar// /-}     # around each command
 unset _bar
 
 # Assertion tallies for the current suite.
@@ -61,24 +62,26 @@ shell_quote() {
 }
 
 #
-# The command about to run, on a line of its own and complete enough to paste
-# straight into a shell at the repository root. `grep '>>> CMD:'` over a CI
-# log is the list of commands the run actually covered.
+# The command about to run, on a line of its own between two rules, and
+# complete enough to paste straight into a shell at the repository root.
 #
 log_cmd() {
     [ -n "${LOG_QUIET:-}" ] && return 0
-    printf '\n>>> CMD: %s\n' "$*" >&3
+    printf '\n%s\n%s\n%s\n' "$CMDBAR" "$*" "$CMDBAR" >&3
 }
 
 #
-# What the machine said back. stdout and stderr are kept apart so that an
-# error is obvious, and so the ceph noise can be dropped from stderr without
-# touching a response that a check is about to parse.
+# What the machine said back, indented under the command.
+#
+# stdout and stderr are kept apart so that an error stands out, and so the
+# ceph noise can be dropped from stderr without touching a response a check
+# is about to parse. The exit status is only printed when it is non-zero: on
+# success it says nothing a reader does not already know, and a failed
+# assertion reports it on its own line anyway.
 #
 log_out() {
     local out="$1" err="$2" rc="$3"
     [ -n "${LOG_QUIET:-}" ] && return 0
-    printf '<<< OUT (exit %s):\n' "$rc" >&3
     if [ -n "$out" ]; then
         printf '%s\n' "$out" | sed 's/^/    /' >&3
     fi
@@ -87,6 +90,9 @@ log_out() {
     fi
     if [ -z "$out" ] && [ -z "$err" ]; then
         printf '    (no output)\n' >&3
+    fi
+    if [ "$rc" -ne 0 ]; then
+        printf '    (exit status %s)\n' "$rc" >&3
     fi
 }
 
@@ -237,7 +243,8 @@ assert_ok() {
     if [ "$status" -eq 0 ]; then
         _pass "$desc"
     else
-        _fail "$desc" "exit status $status"
+        # The status is already on the command's own block, just above.
+        _fail "$desc"
         diagnose "$LAST_ERR" "$status"
     fi
     return 0
@@ -345,7 +352,7 @@ wait_until() {
     local deadline=$((SECONDS + timeout)) rc=1
     # Polling would otherwise put one CMD/OUT pair per second into the
     # transcript and bury the command the suite is actually testing.
-    printf '\n>>> WAIT: up to %ss for: %s\n' "$timeout" "$*" >&3
+    printf '\nℹ️  waiting up to %ss for: %s\n' "$timeout" "$*" >&3
     local saved="${LOG_QUIET:-}"
     LOG_QUIET=1
     while [ $SECONDS -lt $deadline ]; do
@@ -357,9 +364,9 @@ wait_until() {
     done
     LOG_QUIET="$saved"
     if [ "$rc" -eq 0 ]; then
-        printf '<<< WAIT: satisfied\n' >&3
+        printf 'ℹ️  satisfied after %ss\n' "$((SECONDS - deadline + timeout))" >&3
     else
-        printf '<<< WAIT: gave up after %ss\n' "$timeout" >&3
+        printf '⚠️  gave up after %ss\n' "$timeout" >&3
     fi
     return "$rc"
 }
