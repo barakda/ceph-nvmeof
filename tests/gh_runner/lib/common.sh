@@ -15,7 +15,6 @@
 GH_RUNNER_COMMON_SOURCED=1
 
 printf -v _bar '%130s' ''
-BANNER=${_bar// /=}
 SECBAR=${_bar// /#}
 unset _bar
 
@@ -23,6 +22,142 @@ unset _bar
 CHECKS_PASSED=0
 CHECKS_FAILED=0
 FAILED_CHECKS=()
+
+# Set by the command wrappers in cluster.sh, read by the assertions when they
+# need to explain a failure. Only reliable when the wrapper ran in this shell
+# rather than inside `$( )`.
+LAST_ERR=""
+
+# fd 3 is the transcript. Command tracing goes there rather than to stdout,
+# because `out=$(nvmeof_json ...)` and `cmd 2>&1` would otherwise swallow the
+# trace into the value being captured.
+exec 3>&1
+
+# vstart prints this on every single ceph invocation. Two lines of it per
+# command buries the output that matters.
+# Read by _ceph_exec in cluster.sh.
+# shellcheck disable=SC2034
+CEPH_NOISE='dangerous and experimental features are enabled'
+
+#
+# Render an argv as a command line that can be pasted into a shell.
+#
+# Arguments that need no quoting are left bare, so the common case stays
+# readable; anything else is quoted by printf %q. Without this, an argument
+# such as --model-name "gh runner model" would be logged as three words and
+# would not survive being copied out of the console.
+#
+shell_quote() {
+    local out="" arg
+    for arg in "$@"; do
+        if [[ "$arg" =~ ^[A-Za-z0-9_@%+=:,./-]+$ ]]; then
+            out+="$arg "
+        else
+            printf -v arg '%q' "$arg"
+            out+="$arg "
+        fi
+    done
+    printf '%s' "${out% }"
+}
+
+#
+# The command about to run, on a line of its own and complete enough to paste
+# straight into a shell at the repository root. `grep '>>> CMD:'` over a CI
+# log is the list of commands the run actually covered.
+#
+log_cmd() {
+    [ -n "${LOG_QUIET:-}" ] && return 0
+    printf '\n>>> CMD: %s\n' "$*" >&3
+}
+
+#
+# What the machine said back. stdout and stderr are kept apart so that an
+# error is obvious, and so the ceph noise can be dropped from stderr without
+# touching a response that a check is about to parse.
+#
+log_out() {
+    local out="$1" err="$2" rc="$3"
+    [ -n "${LOG_QUIET:-}" ] && return 0
+    printf '<<< OUT (exit %s):\n' "$rc" >&3
+    if [ -n "$out" ]; then
+        printf '%s\n' "$out" | sed 's/^/    /' >&3
+    fi
+    if [ -n "$err" ]; then
+        printf '%s\n' "$err" | sed 's/^/    [stderr] /' >&3
+    fi
+    if [ -z "$out" ] && [ -z "$err" ]; then
+        printf '    (no output)\n' >&3
+    fi
+}
+
+#
+# Best effort explanation of why a command failed, printed under the verdict.
+#
+# Everything here is a pattern that has actually come out of this stack. When
+# nothing matches, the ceph error line is echoed on its own rather than a
+# guess -- a wrong cause is worse than none.
+#
+diagnose() {
+    local err="$1" rc="${2:-}" why=""
+
+    # Order matters: the environment-level causes come first, because their
+    # messages contain phrases such as "does not exist" that the generic
+    # object-not-found arm below would otherwise swallow.
+    case "$err" in
+    *"Module 'dashboard' is not enabled"*|*"No such module"*)
+        why="The dashboard mgr module is off, so no 'ceph nvmeof' command exists.
+Dockerfile.ceph starts vstart with --without-dashboard and nvmeof_cli_setup
+is what turns it back on." ;;
+    *"Gateway group does not exist"*|*"No gateway found matching server address"*)
+        why="The dashboard has no gateway registered for this address. nvmeof_cli_setup
+should have done that; check the 'Enabling the ceph nvmeof CLI' section." ;;
+    *UNAVAILABLE*|*"failed to connect"*|*"Deadline Exceeded"*|*504*)
+        why="The mgr could not reach the gateway over gRPC. The gateway may have died;
+check 'docker compose ps' and the gateway container log." ;;
+    *"no valid command found"*|*"unrecognized command"*|*"Invalid command"*)
+        why="The ceph build in this cluster does not have this command. CLI_MATRIX.md
+is generated from a ceph checkout that may be newer than the container;
+compare 'ceph version' with the matrix." ;;
+    *"contains invalid characters"*)
+        why="A name contains \"_\". Names become OMAP key elements, where \"_\" is
+the delimiter, so GatewayState.is_key_element_valid() rejects them.
+Use \"-\" instead." ;;
+    *"Invalid NQN"*)
+        why="The NQN is malformed. It must start with \"nqn.\", be 11..222 characters,
+and carry a date and reverse-domain part, as in nqn.2016-06.io.spdk:name." ;;
+    *"missing required parameter"*)
+        why="A required option was not passed. CLI_MATRIX.md marks required options
+with 'yes' in the Req column." ;;
+    *"Unexpected argument"*)
+        why="Almost certainly a boolean written as \"--flag value\". Ceph does not take
+the next token as a CephBool's value, so the value is left over as a stray
+positional. Write \"--flag=value\", or bare \"--flag\" for true." ;;
+    *"not one of 'true', 'false'"*)
+        why="A boolean option got something other than true/false/1/0." ;;
+    *"already used by subsystem"*)
+        why="Serial numbers are unique per gateway; another subsystem has this one." ;;
+    *"already exists"*|*EEXIST*)
+        why="The object is already there. A previous run may have left it behind:
+check that the suite's cleanup removed everything it created." ;;
+    *"Can't find entry"*|*ENOENT*|*"does not exist"*)
+        why="The object was not found. Either it was never created, or an earlier
+step in this suite failed and this one depends on it." ;;
+    *"Invalid subnet"*|*EADDRNOTAVAIL*)
+        why="The network mask is not a valid CIDR subnet." ;;
+    *"Too many open files"*|*E2BIG*)
+        why="A configured limit was exceeded." ;;
+    esac
+
+    if [ -z "$why" ]; then
+        # No pattern matched. Surface the ceph error line verbatim, if there
+        # is one, rather than inventing a cause.
+        why="$(printf '%s\n' "$err" | grep -m1 -E '^Error [A-Z0-9]+:' || true)"
+        [ -n "$why" ] || return 0
+    fi
+
+    printf '    ROOT CAUSE: ' >&3
+    printf '%s\n' "$why" | sed '2,$s/^/                /' >&3
+}
 
 #
 # Prefix every line of this script's output with a timestamp.
@@ -50,10 +185,11 @@ section() {
 #
 # Echo a command, then run it. Returns the command's status.
 #
+# For things that are not ceph commands -- docker, the start_up scripts. The
+# ceph wrappers in cluster.sh trace themselves; do not wrap those in `run`, or
+# the command gets logged twice.
 run() {
-    echo "$BANNER"
-    echo "$*"
-    echo "$BANNER"
+    log_cmd "$*"
     "$@"
 }
 
@@ -89,18 +225,20 @@ _fail() {
 #
 # assert_ok <description> <command...>
 #
+# The command is run in this shell, not in `$( )`, so that the wrapper's
+# LAST_ERR survives for diagnose(). Its stdout is thrown away here because the
+# wrapper has already written the command and the response to the transcript.
+#
 assert_ok() {
     local desc="$1"; shift
-    local out status
-    echo "$BANNER"
-    echo "$*"
-    echo "$BANNER"
-    out=$("$@" 2>&1); status=$?
-    [ -n "$out" ] && echo "$out"
-    if [ $status -eq 0 ]; then
+    local status
+    LAST_ERR=""
+    "$@" > /dev/null; status=$?
+    if [ "$status" -eq 0 ]; then
         _pass "$desc"
     else
         _fail "$desc" "exit status $status"
+        diagnose "$LAST_ERR" "$status"
     fi
     return 0
 }
@@ -113,18 +251,32 @@ assert_ok() {
 #
 assert_fails() {
     local desc="$1"; shift
-    local out status
-    echo "$BANNER"
-    echo "! $*"
-    echo "$BANNER"
-    out=$("$@" 2>&1); status=$?
-    [ -n "$out" ] && echo "$out"
-    if [ $status -ne 0 ]; then
+    local status
+    LAST_ERR=""
+    "$@" > /dev/null; status=$?
+    if [ "$status" -ne 0 ]; then
         _pass "$desc (rejected as expected)"
     else
-        _fail "$desc" "command unexpectedly succeeded"
+        _fail "$desc" "the command was expected to be refused, but it succeeded"
     fi
     return 0
+}
+
+#
+# Why a value read out of a response is not what was expected. The two cases
+# worth naming are the ones that do not mean "the gateway disagrees with us".
+#
+_diagnose_value() {
+    local actual="$1"
+    case "$actual" in
+    null)
+        printf '    ROOT CAUSE: the jq path matched nothing. The field is absent from the\n' >&3
+        printf '                response -- check the name against the model in ceph'"'"'s\n' >&3
+        printf '                mgr/dashboard/model/nvmeof.py.\n' >&3 ;;
+    "")
+        printf '    ROOT CAUSE: the read produced nothing at all, so the command it reads\n' >&3
+        printf '                from most likely failed. Look at the CMD above this one.\n' >&3 ;;
+    esac
 }
 
 assert_eq() {
@@ -133,6 +285,7 @@ assert_eq() {
         _pass "$desc"
     else
         _fail "$desc" "expected '$expected', got '$actual'"
+        _diagnose_value "$actual"
     fi
     return 0
 }
@@ -156,6 +309,7 @@ assert_ge() {
         _pass "$desc"
     else
         _fail "$desc" "expected a number >= $minimum, got '$actual'"
+        _diagnose_value "$actual"
     fi
     return 0
 }
@@ -188,14 +342,26 @@ assert_not_contains() {
 #
 wait_until() {
     local timeout="$1"; shift
-    local deadline=$((SECONDS + timeout))
+    local deadline=$((SECONDS + timeout)) rc=1
+    # Polling would otherwise put one CMD/OUT pair per second into the
+    # transcript and bury the command the suite is actually testing.
+    printf '\n>>> WAIT: up to %ss for: %s\n' "$timeout" "$*" >&3
+    local saved="${LOG_QUIET:-}"
+    LOG_QUIET=1
     while [ $SECONDS -lt $deadline ]; do
         if "$@" > /dev/null 2>&1; then
-            return 0
+            rc=0
+            break
         fi
         sleep 1
     done
-    return 1
+    LOG_QUIET="$saved"
+    if [ "$rc" -eq 0 ]; then
+        printf '<<< WAIT: satisfied\n' >&3
+    else
+        printf '<<< WAIT: gave up after %ss\n' "$timeout" >&3
+    fi
+    return "$rc"
 }
 
 #

@@ -31,10 +31,42 @@ NVMEOF_SERVICE_NAME="${NVMEOF_SERVICE_NAME:-nvmeof.$RBD_POOL}"
 # ---------------------------------------------------------------------------
 
 #
+# Run a command in the ceph container, tracing it to the transcript.
+#
+# The arguments are the argv to run inside the container. The traced line is
+# built from that same argv, so what the log shows is exactly what ran, and
+# it is the whole command -- `docker compose exec` prefix included -- so it
+# can be copied out of the console and pasted into a shell at the repository
+# root without editing.
+#
+# stdout and stderr are kept apart. stdout is returned unchanged, so a caller
+# can pipe it straight into json_get; stderr is logged separately with the
+# vstart noise filtered out, and kept in LAST_ERR for diagnose().
+#
+_ceph_exec() {
+    local out err rc errfile
+    local -a argv=(docker compose exec -T ceph "$@")
+
+    log_cmd "$(shell_quote "${argv[@]}")"
+    errfile="$(mktemp)"
+    out="$("${argv[@]}" 2>"$errfile")"; rc=$?
+    err="$(grep -v "$CEPH_NOISE" "$errfile")" || true
+    rm -f "$errfile"
+
+    log_out "$out" "$err" "$rc"
+    # Read by assert_ok -> diagnose() in common.sh.
+    # shellcheck disable=SC2034
+    LAST_ERR="$err"
+
+    [ -n "$out" ] && printf '%s\n' "$out"
+    return "$rc"
+}
+
+#
 # Run `ceph ...` inside the ceph container.
 #
 ceph_cmd() {
-    docker compose exec -T ceph ceph "$@"
+    _ceph_exec ceph "$@"
 }
 
 #
@@ -53,9 +85,9 @@ ceph_cmd() {
 #
 nvmeof_cmd() {
     if [ -n "${NVMEOF_TARGET_ADDRESS:-}" ]; then
-        ceph_cmd nvmeof "$@" --server-address "$NVMEOF_TARGET_ADDRESS"
+        _ceph_exec ceph nvmeof "$@" --server-address "$NVMEOF_TARGET_ADDRESS"
     else
-        ceph_cmd nvmeof "$@"
+        _ceph_exec ceph nvmeof "$@"
     fi
 }
 
@@ -64,9 +96,9 @@ nvmeof_cmd() {
 #
 nvmeof_json() {
     if [ -n "${NVMEOF_TARGET_ADDRESS:-}" ]; then
-        ceph_cmd nvmeof --format json "$@" --server-address "$NVMEOF_TARGET_ADDRESS"
+        _ceph_exec ceph nvmeof --format json "$@" --server-address "$NVMEOF_TARGET_ADDRESS"
     else
-        ceph_cmd nvmeof --format json "$@"
+        _ceph_exec ceph nvmeof --format json "$@"
     fi
 }
 
@@ -75,7 +107,7 @@ nvmeof_json() {
 # Arguments are positional, not flags: nvme_gw_cmd show "$RBD_POOL" "$GW_GROUP"
 #
 nvme_gw_cmd() {
-    ceph_cmd nvme-gw "$@"
+    _ceph_exec ceph nvme-gw "$@"
 }
 
 #
@@ -175,7 +207,12 @@ require_gateways() {
 #
 suite_begin() {
     SUITE_NAME="$1"
-    SUITE_PREFIX="gh-${SUITE_NAME//\//-}"
+    # The prefix ends up inside NQNs, and an NQN becomes part of an OMAP key,
+    # where "_" is the delimiter: GatewayState.is_key_element_valid() rejects
+    # any element containing one. Suite names are taken from file names such
+    # as 010_add_del, so the underscores have to go here, not just the "/".
+    local slug="${SUITE_NAME//\//-}"
+    SUITE_PREFIX="gh-${slug//_/-}"
     # Every command here goes through `docker compose`, which has to run where
     # the compose file and .env are. run.sh already does this; doing it again
     # is what lets a suite be run on its own from any directory.
@@ -188,8 +225,12 @@ suite_begin() {
 #
 # An NQN belonging to this suite. suite_nqn 1 -> nqn.2016-06.io.spdk:gh-...-1
 #
+# The suffix is sanitised the same way the prefix is: no underscores, or the
+# gateway refuses the NQN as an invalid OMAP key element.
+#
 suite_nqn() {
-    echo "nqn.2016-06.io.spdk:${SUITE_PREFIX:?suite_begin was not called}-${1:-1}"
+    local suffix="${1:-1}"
+    echo "nqn.2016-06.io.spdk:${SUITE_PREFIX:?suite_begin was not called}-${suffix//_/-}"
 }
 
 #
@@ -226,15 +267,15 @@ nvmeof_cli_setup() {
         # The dashboard serves HTTPS by default and has no certificate in a
         # vstart cluster. Its CLI commands register regardless of whether the
         # web server comes up, but turning SSL off keeps the mgr log quiet.
-        run ceph_cmd config set mgr mgr/dashboard/ssl false
-        run ceph_cmd mgr module enable dashboard || die "could not enable the dashboard module"
+        ceph_cmd config set mgr mgr/dashboard/ssl false
+        ceph_cmd mgr module enable dashboard || die "could not enable the dashboard module"
     else
         log "dashboard module already enabled"
     fi
 
     # The module registers its commands asynchronously after loading.
     if ! wait_until 60 ceph_cmd dashboard nvmeof-gateway-list; then
-        run ceph_cmd mgr module ls --format json
+        ceph_cmd mgr module ls --format json
         die "the dashboard module did not register its nvmeof commands"
     fi
 
@@ -247,8 +288,13 @@ nvmeof_cli_setup() {
         daemon="$NVMEOF_SERVICE_NAME.$container"
         log "registering gateway $i: $daemon -> $ip:$NVMEOF_GW_PORT"
         # -i wants a file holding the service URL, and it has to be a file the
-        # ceph container can see.
-        docker compose exec -T ceph bash -c '
+        # ceph container can see. Traced like everything else, so the log
+        # shows how the gateway got registered.
+        #
+        # $1..$4 below belong to the inner `bash -c` script and are supplied
+        # after the `_`, so the single quotes are deliberate.
+        # shellcheck disable=SC2016
+        _ceph_exec bash -c '
             set -e
             printf "%s" "$1" > /tmp/nvmeof_gw_url
             ceph dashboard nvmeof-gateway-add -i /tmp/nvmeof_gw_url "$2" "$3" "$4"
@@ -256,11 +302,11 @@ nvmeof_cli_setup() {
             die "could not register gateway $container with the dashboard"
     done < <(gateway_containers)
 
-    run ceph_cmd dashboard nvmeof-gateway-list
+    ceph_cmd dashboard nvmeof-gateway-list
 
     use_gateway 1
     if ! wait_until 60 nvmeof_cmd gateway info; then
-        run ceph_cmd nvmeof gateway info --server-address "$NVMEOF_TARGET_ADDRESS"
+        ceph_cmd nvmeof gateway info --server-address "$NVMEOF_TARGET_ADDRESS"
         run docker logs --tail 50 "$NVMEOF_TARGET_CONTAINER"
         die "'ceph nvmeof gateway info' does not reach the gateway"
     fi

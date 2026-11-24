@@ -63,7 +63,7 @@ assert_ok "subsystem add with two network masks" \
     nvmeof_cmd subsystem add --nqn "$NQN" --no-group-append \
         --network-mask "$MASK_A" --network-mask "$MASK_B"
 
-run nvmeof_cmd subsystem get --nqn "$NQN"
+nvmeof_cmd subsystem get --nqn "$NQN"
 
 assert_eq "2" "$(mask_count)" "both masks were stored"
 assert_eq "1" "$(has_mask "$MASK_A")" "the first mask is present"

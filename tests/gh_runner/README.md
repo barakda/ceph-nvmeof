@@ -62,6 +62,77 @@ A suite named explicitly always runs, even when `SHAPE_SKIP` in `shape.env`
 excludes it from the whole-shape expansion. That is how `single_gw/qos` — the
 half-hour fio soak — stays out of the CLI job.
 
+## Reading the output
+
+Every command is traced on its own line, followed by what the machine said
+back, then the verdict, and — when it failed — why:
+
+```
+>>> CMD: docker compose exec -T ceph ceph nvmeof subsystem add --nqn nqn.2016-06.io.spdk:x_y --server-address 192.168.13.3
+<<< OUT (exit 22):
+    [stderr] Error EINVAL: Invalid NQN "nqn.2016-06.io.spdk:x_y", contains invalid characters
+❌ subsystem add with only --nqn
+   exit status 22
+    ROOT CAUSE: A name contains "_". Names become OMAP key elements, where "_" is
+                the delimiter, so GatewayState.is_key_element_valid() rejects them.
+                Use "-" instead.
+```
+
+The `>>> CMD:` line is the whole command, `docker compose exec` prefix and
+all, so it can be copied straight out of the console and pasted into a shell
+at the repository root — no editing, no guessing at the gateway address.
+Arguments are quoted where they need to be, so something like
+`--model-name "gh runner model"` survives the round trip as one argument.
+
+It is also built from the argv that actually runs, rather than being written
+out a second time next to it, so the line cannot drift from what happened.
+
+`grep '>>> CMD:'` over a run is the list of commands it covered:
+
+```bash
+grep '>>> CMD:' ci.log | sed 's/.*ceph nvmeof /ceph nvmeof /' | sort -u
+grep -E '^(✅|❌)' ci.log                          # every verdict
+grep -A3 'ROOT CAUSE' ci.log                      # the failures, explained
+```
+
+The trace goes to file descriptor 3, not stdout, so that `out=$(nvmeof_json
+...)` and `cmd 2>&1` cannot swallow it into a value being captured. The
+`WARNING: all dangerous and experimental features are enabled` line that
+vstart prints on every single ceph call is filtered out of stderr.
+
+`ROOT CAUSE` is best effort. `diagnose()` in `lib/common.sh` matches error
+text that has actually come out of this stack; when nothing matches it echoes
+the `Error EXXX:` line rather than guessing, because a confident wrong cause
+is worse than none. Add a case there when you hit a new one.
+
+## Running the commands by hand
+
+`nvmeof_cmd` and friends are shell functions, not programs — they do not exist
+until something sources them, which is why `nvmeof_cmd gw info` at a bare
+prompt gives "command not found". Against a cluster that is already up:
+
+```bash
+source tests/gh_runner/shell.sh      # from the repository root
+nvmeof_cmd gateway info
+nvmeof_json subsystem list | json_get '.subsystems[].nqn'
+nvme_gw_cmd show rbd ''
+```
+
+Nothing requires the helpers, though. Each is a thin wrapper, and the
+`>>> CMD:` line in the log is already the complete command — copy it out of
+the console and run it as is:
+
+```bash
+docker compose exec -T ceph ceph nvmeof gateway info --server-address 192.168.13.3
+```
+
+Or get a shell in the ceph container and drop the prefix from the rest:
+
+```bash
+docker compose exec ceph bash
+ceph nvmeof gateway info --server-address 192.168.13.3
+```
+
 ## Writing a suite
 
 ```bash
