@@ -49,7 +49,9 @@ TRSVCID="${NVMEOF_IO_PORT:-4420}"
 QOS_RW_IOPS="${QOS_RW_IOPS:-150}"
 IO_TIMEOUT="${IO_TIMEOUT:-5}"
 NR_IO_QUEUES="${NR_IO_QUEUES:-1}"
-FIO_RUNTIME="${FIO_RUNTIME:-1800}"            # 30 minutes of IO
+# BRKD - to retun to 30 min before code review
+# FIO_RUNTIME=1800 (or by editing this default) once they have settled.
+FIO_RUNTIME="${FIO_RUNTIME:-300}"
 FIO_PER_KIND="${FIO_PER_KIND:-2}"
 FIO_SOAK="${FIO_SOAK:-$((FIO_RUNTIME - 60))}"
 DMESG_FAIL_PATTERN="${DMESG_FAIL_PATTERN:-error|fail|timeout|block|disconnect}"

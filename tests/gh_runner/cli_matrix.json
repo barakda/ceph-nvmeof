@@ -1,0 +1,6318 @@
+{
+  "ceph_nvmeof": {
+    "commands": [
+      {
+        "alias": "",
+        "command": "nvmeof connection get_extended_io_statistics",
+        "grpc": [
+          "get_connection_extended_io_statistics"
+        ],
+        "handler": "get_extended_io_stats",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--verbose-statistics-mode=<bool>",
+            "name": "verbose_statistics_mode",
+            "required": false,
+            "type": "bool"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof connection get_io_statistics",
+        "grpc": [
+          "get_connection_io_statistics"
+        ],
+        "handler": "get_io_stats",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof connection list",
+        "grpc": [
+          "list_connections"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof connection reset_extended_io_statistics",
+        "grpc": [
+          "get_connection_extended_io_statistics"
+        ],
+        "handler": "reset_extended_io_stats",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof connection reset_io_statistics",
+        "grpc": [
+          "get_connection_io_statistics"
+        ],
+        "handler": "reset_io_stats",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw get_log_level",
+        "command": "nvmeof gateway get_log_level",
+        "grpc": [
+          "get_gateway_log_level"
+        ],
+        "handler": "get_log_level",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw get_stats",
+        "command": "nvmeof gateway get_stats",
+        "grpc": [
+          "get_gateway_stats"
+        ],
+        "handler": "get_gw_stats",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw get_thread_stats",
+        "command": "nvmeof gateway get_thread_stats",
+        "grpc": [
+          "get_thread_stats"
+        ],
+        "handler": "get_thread_stats",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw info",
+        "command": "nvmeof gateway info",
+        "grpc": [
+          "get_gateway_info"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw listener_info",
+        "command": "nvmeof gateway listener_info",
+        "grpc": [
+          "show_gateway_listeners_info"
+        ],
+        "handler": "listener_info",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw refresh_network",
+        "command": "nvmeof gateway refresh_network",
+        "grpc": [
+          "gw_refresh_network"
+        ],
+        "handler": "refresh_network",
+        "options": [
+          {
+            "default": "''",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw set_io_stats_mode",
+        "command": "nvmeof gateway set_io_stats_mode",
+        "grpc": [
+          "set_gateway_io_stats_mode"
+        ],
+        "handler": "set_io_stats_mode",
+        "options": [
+          {
+            "default": "",
+            "flag": "--enabled=<bool>",
+            "name": "enabled",
+            "required": true,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw set_log_level",
+        "command": "nvmeof gateway set_log_level",
+        "grpc": [
+          "set_gateway_log_level"
+        ],
+        "handler": "set_log_level",
+        "options": [
+          {
+            "default": "",
+            "flag": "--log-level",
+            "name": "log_level",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof gw version",
+        "command": "nvmeof gateway version",
+        "grpc": [
+          "get_gateway_info"
+        ],
+        "handler": "version",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof get_subsystems",
+        "grpc": [
+          "get_subsystems"
+        ],
+        "handler": "get_subsystems",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host add",
+        "grpc": [
+          "add_host"
+        ],
+        "handler": "create",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--dhchap-key",
+            "name": "dhchap_key",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--dhchap-controller-key",
+            "name": "dhchap_controller_key",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--psk",
+            "name": "psk",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host change_controller_key",
+        "grpc": [
+          "change_host_key"
+        ],
+        "handler": "change_controller_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--dhchap-controller-key",
+            "name": "dhchap_controller_key",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host change_key",
+        "grpc": [
+          "change_host_key"
+        ],
+        "handler": "change_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--dhchap-key",
+            "name": "dhchap_key",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host del",
+        "grpc": [
+          "remove_host"
+        ],
+        "handler": "delete",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--keep-connections=<bool>",
+            "name": "keep_connections",
+            "required": false,
+            "type": "bool"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host del_controller_key",
+        "grpc": [
+          "change_host_key"
+        ],
+        "handler": "del_controller_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host del_key",
+        "grpc": [
+          "change_host_key"
+        ],
+        "handler": "del_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof host list",
+        "grpc": [
+          "list_hosts"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof listener add",
+        "grpc": [
+          "create_listener"
+        ],
+        "handler": "create",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-name",
+            "name": "host_name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--trsvcid",
+            "name": "trsvcid",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "0",
+            "flag": "--adrfam",
+            "name": "adrfam",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--secure=<bool>",
+            "name": "secure",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--verify-host-name=<bool>",
+            "name": "verify_host_name",
+            "required": false,
+            "type": "bool"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof listener del",
+        "grpc": [
+          "delete_listener"
+        ],
+        "handler": "delete",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-name",
+            "name": "host_name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--trsvcid",
+            "name": "trsvcid",
+            "required": true,
+            "type": "int"
+          },
+          {
+            "default": "0",
+            "flag": "--adrfam",
+            "name": "adrfam",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof listener list",
+        "grpc": [
+          "list_listeners"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns add",
+        "command": "nvmeof namespace add",
+        "grpc": [
+          "namespace_add"
+        ],
+        "handler": "create_cli",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--rbd-image-name",
+            "name": "rbd_image_name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "'rbd'",
+            "flag": "--rbd-pool",
+            "name": "rbd_pool",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--rbd-data-pool",
+            "name": "rbd_data_pool",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--uuid",
+            "name": "uuid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--create-image=<bool>",
+            "name": "create_image",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--size",
+            "name": "size",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--rbd-image-size",
+            "name": "rbd_image_size",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--trash-image=<bool>",
+            "name": "trash_image",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "512",
+            "flag": "--block-size",
+            "name": "block_size",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--load-balancing-group",
+            "name": "load_balancing_group",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--no-auto-visible=<bool>",
+            "name": "no_auto_visible",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--disable-auto-resize=<bool>",
+            "name": "disable_auto_resize",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--read-only=<bool>",
+            "name": "read_only",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--location",
+            "name": "location",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--rados-namespace",
+            "name": "rados_namespace",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--encryption-format",
+            "name": "encryption_format",
+            "required": false,
+            "type": "List[str]"
+          },
+          {
+            "default": "None",
+            "flag": "--encryption-algorithm",
+            "name": "encryption_algorithm",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--key-id",
+            "name": "key_id",
+            "required": false,
+            "type": "List[str]"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns add_host",
+        "command": "nvmeof namespace add_host",
+        "grpc": [
+          "namespace_add_host"
+        ],
+        "handler": "add_host",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns change_load_balancing_group",
+        "command": "nvmeof namespace change_load_balancing_group",
+        "grpc": [
+          "namespace_change_load_balancing_group"
+        ],
+        "handler": "change_load_balancing_group",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--load-balancing-group",
+            "name": "load_balancing_group",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns change_location",
+        "command": "nvmeof namespace change_location",
+        "grpc": [
+          "namespace_change_location"
+        ],
+        "handler": "change_location",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--location",
+            "name": "location",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns change_visibility",
+        "command": "nvmeof namespace change_visibility",
+        "grpc": [
+          "namespace_change_visibility"
+        ],
+        "handler": "change_visibility",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--auto-visible",
+            "name": "auto_visible",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns del",
+        "command": "nvmeof namespace del",
+        "grpc": [
+          "namespace_delete"
+        ],
+        "handler": "delete",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "'false'",
+            "flag": "--force",
+            "name": "force",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns del_host",
+        "command": "nvmeof namespace del_host",
+        "grpc": [
+          "namespace_delete_host"
+        ],
+        "handler": "del_host",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns get",
+        "command": "nvmeof namespace get",
+        "grpc": [
+          "list_namespaces"
+        ],
+        "handler": "get",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns get_io_stats",
+        "command": "nvmeof namespace get_io_stats",
+        "grpc": [
+          "namespace_get_io_stats"
+        ],
+        "handler": "io_stats",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns list",
+        "command": "nvmeof namespace list",
+        "grpc": [
+          "list_namespaces"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--uuid",
+            "name": "uuid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns list_hosts",
+        "command": "nvmeof namespace list_hosts",
+        "grpc": [
+          "list_namespaces"
+        ],
+        "handler": "list_hosts",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--uuid",
+            "name": "uuid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns list_locations",
+        "command": "nvmeof namespace list_locations",
+        "grpc": [
+          "list_namespaces"
+        ],
+        "handler": "list_locations",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--uuid",
+            "name": "uuid",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns refresh_size",
+        "command": "nvmeof namespace refresh_size",
+        "grpc": [
+          "namespace_resize"
+        ],
+        "handler": "refresh_size",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns resize",
+        "command": "nvmeof namespace resize",
+        "grpc": [
+          "namespace_resize"
+        ],
+        "handler": "resize_cli",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--rbd-image-size",
+            "name": "rbd_image_size",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns set_auto_resize",
+        "command": "nvmeof namespace set_auto_resize",
+        "grpc": [
+          "namespace_set_auto_resize"
+        ],
+        "handler": "set_auto_resize",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--auto-resize-enabled=<bool>",
+            "name": "auto_resize_enabled",
+            "required": true,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns set_qos",
+        "command": "nvmeof namespace set_qos",
+        "grpc": [
+          "namespace_set_qos_limits"
+        ],
+        "handler": "set_qos",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--rw-ios-per-second",
+            "name": "rw_ios_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--rw-mbytes-per-second",
+            "name": "rw_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--r-mbytes-per-second",
+            "name": "r_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--w-mbytes-per-second",
+            "name": "w_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns set_rbd_trash_image",
+        "command": "nvmeof namespace set_rbd_trash_image",
+        "grpc": [
+          "namespace_set_rbd_trash_image"
+        ],
+        "handler": "set_rbd_trash_image",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--rbd-trash-image-on-delete",
+            "name": "rbd_trash_image_on_delete",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns unpin",
+        "command": "nvmeof namespace unpin",
+        "grpc": [
+          "namespace_unpin"
+        ],
+        "handler": "unpin_ns",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "nvmeof ns update",
+        "command": "nvmeof namespace update",
+        "grpc": [
+          "list_namespaces",
+          "namespace_resize",
+          "namespace_change_load_balancing_group",
+          "namespace_set_qos_limits",
+          "namespace_set_rbd_trash_image",
+          "namespace_change_location"
+        ],
+        "handler": "update",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--nsid",
+            "name": "nsid",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--rbd-image-size",
+            "name": "rbd_image_size",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--load-balancing-group",
+            "name": "load_balancing_group",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--rw-ios-per-second",
+            "name": "rw_ios_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--rw-mbytes-per-second",
+            "name": "rw_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--r-mbytes-per-second",
+            "name": "r_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--w-mbytes-per-second",
+            "name": "w_mbytes_per_second",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--trash-image=<bool>",
+            "name": "trash_image",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--location",
+            "name": "location",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof spdk_log_level disable",
+        "grpc": [
+          "disable_spdk_nvmf_logs"
+        ],
+        "handler": "disable_spdk_log_level",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--extra-log-flags",
+            "name": "extra_log_flags",
+            "required": false,
+            "type": "List[str]"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof spdk_log_level get",
+        "grpc": [
+          "get_spdk_nvmf_log_flags_and_level"
+        ],
+        "handler": "get_spdk_log_level",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--all-log-flags=<bool>",
+            "name": "all_log_flags",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof spdk_log_level set",
+        "grpc": [
+          "set_spdk_nvmf_logs"
+        ],
+        "handler": "set_spdk_log_level",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--log-level",
+            "name": "log_level",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--print-level",
+            "name": "print_level",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--extra-log-flags",
+            "name": "extra_log_flags",
+            "required": false,
+            "type": "List[str]"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem add",
+        "grpc": [
+          "create_subsystem"
+        ],
+        "handler": "create",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--max-namespaces",
+            "name": "max_namespaces",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "False",
+            "flag": "--no-group-append=<bool>",
+            "name": "no_group_append",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--serial-number",
+            "name": "serial_number",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--dhchap-key",
+            "name": "dhchap_key",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--network-mask",
+            "name": "network_mask",
+            "required": false,
+            "type": "List[str]"
+          },
+          {
+            "default": "False",
+            "flag": "--use-group-config-network-masks=<bool>",
+            "name": "use_group_config_network_masks",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--port",
+            "name": "port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "False",
+            "flag": "--secure-listeners=<bool>",
+            "name": "secure_listeners",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--model-name",
+            "name": "model_name",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem add_kmip_server_endpoint",
+        "grpc": [
+          "add_kmip_server_endpoints"
+        ],
+        "handler": "add_kmip_server_endpoint",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--server-name",
+            "name": "server_name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--address",
+            "name": "address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "5696",
+            "flag": "--port",
+            "name": "port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem add_network",
+        "grpc": [
+          "add_subsystem_network"
+        ],
+        "handler": "add_network",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--network-mask",
+            "name": "network_mask",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem change_key",
+        "grpc": [
+          "change_subsystem_key"
+        ],
+        "handler": "change_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--dhchap-key",
+            "name": "dhchap_key",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem del",
+        "grpc": [
+          "delete_subsystem"
+        ],
+        "handler": "delete",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "'false'",
+            "flag": "--force",
+            "name": "force",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem del_key",
+        "grpc": [
+          "change_subsystem_key"
+        ],
+        "handler": "del_key",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem del_kmip_server_endpoint",
+        "grpc": [
+          "del_kmip_server_endpoints"
+        ],
+        "handler": "del_kmip_server_endpoint",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--server-name",
+            "name": "server_name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--address",
+            "name": "address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "5696",
+            "flag": "--port",
+            "name": "port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--force=<bool>",
+            "name": "force",
+            "required": false,
+            "type": "bool"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem del_network",
+        "grpc": [
+          "del_subsystem_network"
+        ],
+        "handler": "del_network",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--network-mask",
+            "name": "network_mask",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem get",
+        "grpc": [
+          "list_subsystems"
+        ],
+        "handler": "get",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem list",
+        "grpc": [
+          "list_subsystems"
+        ],
+        "handler": "list",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--serial-number",
+            "name": "serial_number",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem list_kmip_server_endpoints",
+        "grpc": [
+          "list_kmip_server_endpoints"
+        ],
+        "handler": "list_eps",
+        "options": [
+          {
+            "default": "None",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-name",
+            "name": "server_name",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof subsystem set_use_group_config_network_masks",
+        "grpc": [
+          "set_subsystem_use_group_config_network_masks"
+        ],
+        "handler": "set_use_group_config_network_masks",
+        "options": [
+          {
+            "default": "",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--use-group-config-network-masks=<bool>",
+            "name": "use_group_config_network_masks",
+            "required": true,
+            "type": "bool"
+          },
+          {
+            "default": "None",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--traddr",
+            "name": "traddr",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/controllers/nvmeof.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof top connection",
+        "grpc": [],
+        "handler": "nvmeof_top_connection",
+        "options": [
+          {
+            "default": "''",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "''",
+            "flag": "--host-nqn",
+            "name": "host_nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "''",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-port",
+            "name": "server_port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "''",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--descending=<bool>",
+            "name": "descending",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "'Gateway'",
+            "flag": "--sort-by",
+            "name": "sort_by",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--with-timestamp=<bool>",
+            "name": "with_timestamp",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--no-header=<bool>",
+            "name": "no_header",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "1.0",
+            "flag": "--period",
+            "name": "period",
+            "required": false,
+            "type": "float"
+          },
+          {
+            "default": "None",
+            "flag": "--session-id",
+            "name": "session_id",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_top_cli.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof top cpu",
+        "grpc": [],
+        "handler": "nvmeof_top_cpu",
+        "options": [
+          {
+            "default": "''",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-port",
+            "name": "server_port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "''",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--descending=<bool>",
+            "name": "descending",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "'Thread Name'",
+            "flag": "--sort-by",
+            "name": "sort_by",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--with-timestamp=<bool>",
+            "name": "with_timestamp",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--no-header=<bool>",
+            "name": "no_header",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "1.0",
+            "flag": "--period",
+            "name": "period",
+            "required": false,
+            "type": "float"
+          },
+          {
+            "default": "None",
+            "flag": "--session-id",
+            "name": "session_id",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_top_cli.py"
+      },
+      {
+        "alias": "",
+        "command": "nvmeof top io",
+        "grpc": [],
+        "handler": "nvmeof_top_io",
+        "options": [
+          {
+            "default": "''",
+            "flag": "--nqn",
+            "name": "nqn",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "''",
+            "flag": "--server-address",
+            "name": "server_address",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "None",
+            "flag": "--server-port",
+            "name": "server_port",
+            "required": false,
+            "type": "int"
+          },
+          {
+            "default": "''",
+            "flag": "--gw-group",
+            "name": "gw_group",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--descending=<bool>",
+            "name": "descending",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "'NSID'",
+            "flag": "--sort-by",
+            "name": "sort_by",
+            "required": false,
+            "type": "str"
+          },
+          {
+            "default": "False",
+            "flag": "--with-timestamp=<bool>",
+            "name": "with_timestamp",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--summary=<bool>",
+            "name": "summary",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "False",
+            "flag": "--no-header=<bool>",
+            "name": "no_header",
+            "required": false,
+            "type": "bool"
+          },
+          {
+            "default": "1.0",
+            "flag": "--period",
+            "name": "period",
+            "required": false,
+            "type": "float"
+          },
+          {
+            "default": "None",
+            "flag": "--session-id",
+            "name": "session_id",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_top_cli.py"
+      }
+    ],
+    "dashboard_commands": [
+      {
+        "alias": "",
+        "command": "dashboard nvmeof-gateway-add",
+        "grpc": [],
+        "handler": "add_nvmeof_gateway",
+        "options": [
+          {
+            "default": "",
+            "flag": "--name",
+            "name": "name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--group",
+            "name": "group",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "",
+            "flag": "--daemon-name",
+            "name": "daemon_name",
+            "required": true,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_cli.py"
+      },
+      {
+        "alias": "",
+        "command": "dashboard nvmeof-gateway-list",
+        "grpc": [],
+        "handler": "list_nvmeof_gateways",
+        "options": [],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_cli.py"
+      },
+      {
+        "alias": "",
+        "command": "dashboard nvmeof-gateway-rm",
+        "grpc": [],
+        "handler": "remove_nvmeof_gateway",
+        "options": [
+          {
+            "default": "",
+            "flag": "--name",
+            "name": "name",
+            "required": true,
+            "type": "str"
+          },
+          {
+            "default": "''",
+            "flag": "--daemon-name",
+            "name": "daemon_name",
+            "required": false,
+            "type": "str"
+          }
+        ],
+        "source": "src/pybind/mgr/dashboard/services/nvmeof_cli.py"
+      }
+    ],
+    "mon_commands": [
+      {
+        "command": "nvme-gw create",
+        "help": "create nvmeof gateway id for (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw create <id> <pool> <group>"
+      },
+      {
+        "command": "nvme-gw delete",
+        "help": "delete nvmeof gateway id for (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw delete <id> <pool> <group>"
+      },
+      {
+        "command": "nvme-gw disable",
+        "help": "administratively disables nvmeof gateway id for (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw disable <id> <pool> <group>"
+      },
+      {
+        "command": "nvme-gw disaster-clear",
+        "help": "set location to clear Disaster state - failbacks allowed for recovered location",
+        "options": [
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw disaster-clear <pool> <group> <location>"
+      },
+      {
+        "command": "nvme-gw disaster-set",
+        "help": "set location to Disaster state",
+        "options": [
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw disaster-set <pool> <group> <location>"
+      },
+      {
+        "command": "nvme-gw enable",
+        "help": "administratively enables nvmeof gateway id for (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw enable <id> <pool> <group>"
+      },
+      {
+        "command": "nvme-gw listeners",
+        "help": "show all nvmeof gateways listeners within (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw listeners <pool> <group>"
+      },
+      {
+        "command": "nvme-gw ok-to-stop",
+        "help": "check whether one gateway in (pool, group) may stop. id - optional; when set, the check applies to this gateway disable-if-ok - true/false, requires id; admin-disable that gateway if checks pass",
+        "options": [
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "disable-if-ok",
+            "required": false,
+            "type": "bool"
+          }
+        ],
+        "usage": "nvme-gw ok-to-stop <pool> <group> [id] [disable-if-ok]"
+      },
+      {
+        "command": "nvme-gw set",
+        "help": "config nvme-gw",
+        "options": [
+          {
+            "choices": "beacon-diff",
+            "name": "var",
+            "required": true,
+            "type": "choices"
+          },
+          {
+            "choices": "",
+            "name": "val",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw set <var> <val>"
+      },
+      {
+        "command": "nvme-gw set-location",
+        "help": "set location for nvmeof gateway id for (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "location",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw set-location <id> <pool> <group> <location>"
+      },
+      {
+        "command": "nvme-gw show",
+        "help": "show nvmeof gateways within (pool, group)",
+        "options": [
+          {
+            "choices": "",
+            "name": "pool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "choices": "",
+            "name": "group",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "usage": "nvme-gw show <pool> <group>"
+      },
+      {
+        "command": "nvme-gw show-all",
+        "help": "Dump nvmeof gateways for all pools and groups",
+        "options": [],
+        "usage": "nvme-gw show-all"
+      }
+    ]
+  },
+  "nvmeof_cli": {
+    "commands": [
+      {
+        "actions": [
+          {
+            "action": "get_extended_io_statistics",
+            "aliases": [],
+            "help": "Get extended IO statistics for a connection",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "verbose_statistics_mode",
+                "flags": [
+                  "--verbose-statistics-mode",
+                  "-v"
+                ],
+                "help": "Enable verbose per-bucket statistics",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "get_io_statistics",
+            "aliases": [],
+            "help": "Get the IO statistics for a connection",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "verbose_statistics_mode",
+                "flags": [
+                  "--verbose-statistics-mode",
+                  "-v"
+                ],
+                "help": "Enable verbose per-bucket statistics",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "list",
+            "aliases": [],
+            "help": "List active connections",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "reset_extended_io_statistics",
+            "aliases": [],
+            "help": "Reset extended IO statistics for a connection",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "reset_io_statistics",
+            "aliases": [],
+            "help": "Reset the IO statistics for a connection",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          }
+        ],
+        "aliases": [],
+        "command": "connection",
+        "help": "Connection commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "get_log_level",
+            "aliases": [],
+            "help": "Get gateway's log level",
+            "options": []
+          },
+          {
+            "action": "get_stats",
+            "aliases": [],
+            "help": "Show NVMf statistics for the gateway",
+            "options": []
+          },
+          {
+            "action": "get_thread_stats",
+            "aliases": [],
+            "help": "Show NVMf thread statistics for the gateway",
+            "options": []
+          },
+          {
+            "action": "info",
+            "aliases": [],
+            "help": "Display gateway's information",
+            "options": []
+          },
+          {
+            "action": "listener_info",
+            "aliases": [],
+            "help": "Show listeners information for the gateway",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "refresh_network",
+            "aliases": [],
+            "help": "Re-evaluate subsystem network masks and update listeners for this gateway",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "set_io_stats_mode",
+            "aliases": [],
+            "help": "Set gateway IO statistics on or off",
+            "options": [
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "enable",
+                "flags": [
+                  "--enable",
+                  "-e"
+                ],
+                "help": "Enable the IO statistics for the gateway",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "disable",
+                "flags": [
+                  "--disable",
+                  "-d"
+                ],
+                "help": "Enable the IO statistics for the gateway",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "set_log_level",
+            "aliases": [],
+            "help": "Set gateway's log level",
+            "options": [
+              {
+                "choices": "debug,info,warning,error,critical",
+                "default": "",
+                "dest": "level",
+                "flags": [
+                  "--level",
+                  "-l"
+                ],
+                "help": "Gateway log level",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "version",
+            "aliases": [],
+            "help": "Display gateway's version",
+            "options": []
+          }
+        ],
+        "aliases": [
+          "gw"
+        ],
+        "command": "gateway",
+        "help": "Gateway commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "",
+            "aliases": [],
+            "help": "Get subsystems",
+            "options": []
+          }
+        ],
+        "aliases": [],
+        "command": "get_subsystems",
+        "help": "Get subsystems"
+      },
+      {
+        "actions": [
+          {
+            "action": "add",
+            "aliases": [],
+            "help": "Add host access to a subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN list",
+                "nargs": "+",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "psk",
+                "flags": [
+                  "--psk",
+                  "-p"
+                ],
+                "help": "Hosts PSK key",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_key",
+                "flags": [
+                  "--dhchap-key",
+                  "-k"
+                ],
+                "help": "Host DH-HMAC-CHAP key",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_controller_key",
+                "flags": [
+                  "--dhchap-controller-key",
+                  "-c"
+                ],
+                "help": "Controller DH-HMAC-CHAP key (mutual exclusive with subsystem's key)",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "change_controller_key",
+            "aliases": [],
+            "help": "Change controller's inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_controller_key",
+                "flags": [
+                  "--dhchap-controller-key",
+                  "-c"
+                ],
+                "help": "Controller DH-HMAC-CHAP key",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "change_key",
+            "aliases": [],
+            "help": "Change host's inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_key",
+                "flags": [
+                  "--dhchap-key",
+                  "-k"
+                ],
+                "help": "Host DH-HMAC-CHAP key",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "del",
+            "aliases": [],
+            "help": "Remove host access from a subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN list",
+                "nargs": "+",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Delete the host even if it used in a namespace netmask",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "keep_connections",
+                "flags": [
+                  "--keep-connections",
+                  "-k"
+                ],
+                "help": "Do not disconnect existing connections from that host",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del_controller_key",
+            "aliases": [],
+            "help": "Delete controller's inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "del_key",
+            "aliases": [],
+            "help": "Delete host's inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "list",
+            "aliases": [],
+            "help": "List subsystem's host access",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          }
+        ],
+        "aliases": [],
+        "command": "host",
+        "help": "Host commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "add",
+            "aliases": [],
+            "help": "Create a listener",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_name",
+                "flags": [
+                  "--host-name",
+                  "-t"
+                ],
+                "help": "Host name",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "verify_host_name",
+                "flags": [
+                  "--verify-host-name",
+                  "-y"
+                ],
+                "help": "Fail in case the listener's host name is different than the gateway's",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "traddr",
+                "flags": [
+                  "--traddr",
+                  "-a"
+                ],
+                "help": "NVMe host IP",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "trsvcid",
+                "flags": [
+                  "--trsvcid",
+                  "-s"
+                ],
+                "help": "Port number",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "ipv4,ipv6",
+                "default": "",
+                "dest": "adrfam",
+                "flags": [
+                  "--adrfam",
+                  "-f"
+                ],
+                "help": "Address family",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "secure",
+                "flags": [
+                  "--secure"
+                ],
+                "help": "Use secure channel",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Allow contradiction in security with existing listeners",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del",
+            "aliases": [],
+            "help": "Delete a listener",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_name",
+                "flags": [
+                  "--host-name",
+                  "-t"
+                ],
+                "help": "Host name",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "traddr",
+                "flags": [
+                  "--traddr",
+                  "-a"
+                ],
+                "help": "NVMe host IP",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "trsvcid",
+                "flags": [
+                  "--trsvcid",
+                  "-s"
+                ],
+                "help": "Port number",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "ipv4,ipv6",
+                "default": "",
+                "dest": "adrfam",
+                "flags": [
+                  "--adrfam",
+                  "-f"
+                ],
+                "help": "Address family",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Delete listener even if there are active connections for the address, or the host name doesn't match",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "list",
+            "aliases": [],
+            "help": "List listeners",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          }
+        ],
+        "aliases": [],
+        "command": "listener",
+        "help": "Listener commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "add",
+            "aliases": [],
+            "help": "Create a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "uuid",
+                "flags": [
+                  "--uuid",
+                  "-u"
+                ],
+                "help": "UUID",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rbd_pool",
+                "flags": [
+                  "--rbd-pool",
+                  "-p"
+                ],
+                "help": "RBD pool name",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rbd_data_pool",
+                "flags": [
+                  "--rbd-data-pool",
+                  "-d"
+                ],
+                "help": "RBD data pool name (only required for erasure pools)",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rbd_image",
+                "flags": [
+                  "--rbd-image",
+                  "-i"
+                ],
+                "help": "RBD image name",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rados_namespace",
+                "flags": [
+                  "--rados-namespace",
+                  "-r"
+                ],
+                "help": "RADOS namespace name",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "rbd_create_image",
+                "flags": [
+                  "--rbd-create-image",
+                  "-c"
+                ],
+                "help": "Create RBD image if needed",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "block_size",
+                "flags": [
+                  "--block-size",
+                  "-s"
+                ],
+                "help": "Block size",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "0",
+                "dest": "load_balancing_group",
+                "flags": [
+                  "--load-balancing-group",
+                  "-l"
+                ],
+                "help": "Load balancing group",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "size",
+                "flags": [
+                  "--size"
+                ],
+                "help": "Size in bytes or specified unit (K, KB, M, MB, G, GB, T, TB, P, PB)",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Create a namespace even when its image is already used by another namespace",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "no_auto_visible",
+                "flags": [
+                  "--no-auto-visible"
+                ],
+                "help": "Make the namespace visible only to specific hosts",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "rbd_trash_image_on_delete",
+                "flags": [
+                  "--rbd-trash-image-on-delete"
+                ],
+                "help": "Trash associated RBD image on namespace deletion. Only applies to images created automatically by the gateway",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "disable_auto_resize",
+                "flags": [
+                  "--disable-auto-resize"
+                ],
+                "help": "When the RBD image is resized, do not automatically resize the namespace",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "read_only",
+                "flags": [
+                  "--read-only"
+                ],
+                "help": "Open the namespace in read-only mode",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "location",
+                "flags": [
+                  "--location"
+                ],
+                "help": "Namespace's location",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "luks1,luks2",
+                "default": "",
+                "dest": "encryption_format",
+                "flags": [
+                  "--encryption-format",
+                  "-f"
+                ],
+                "help": "Encryption formats to use, LUKS1 or LUKS2",
+                "nargs": "+",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "aes128,aes256",
+                "default": "",
+                "dest": "encryption_algorithm",
+                "flags": [
+                  "--encryption-algorithm",
+                  "-g"
+                ],
+                "help": "Algorithm to use for encryption",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "key_id",
+                "flags": [
+                  "--key-id"
+                ],
+                "help": "Key ID(s) to use for encryption pass phrases",
+                "nargs": "+",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "add_host",
+            "aliases": [],
+            "help": "Add a host to a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN list",
+                "nargs": "+",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Allow adding the host to the namespace even if the host has no access to the subsystem",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "change_load_balancing_group",
+            "aliases": [],
+            "help": "Change load balancing group for a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "load_balancing_group",
+                "flags": [
+                  "--load-balancing-group",
+                  "-l"
+                ],
+                "help": "Load balancing group",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              }
+            ]
+          },
+          {
+            "action": "change_location",
+            "aliases": [],
+            "help": "Change location for a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "location",
+                "flags": [
+                  "--location"
+                ],
+                "help": "Namespace's location",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "change_visibility",
+            "aliases": [],
+            "help": "Change visibility for a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "yes,no,true,false,1,0",
+                "default": "",
+                "dest": "auto_visible",
+                "flags": [
+                  "--auto-visible"
+                ],
+                "help": "Visible to all hosts if yes, otherwise visible to selected hosts only",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Change visibility of namespace even if there are hosts added to it or active connections on the subsystem",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del",
+            "aliases": [],
+            "help": "Delete a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "i_am_sure",
+                "flags": [
+                  "--i-am-sure"
+                ],
+                "help": "Confirmation for deleting the namespace associated RBD image",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del_host",
+            "aliases": [],
+            "help": "Delete a host from a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "host_nqn",
+                "flags": [
+                  "--host-nqn",
+                  "-t"
+                ],
+                "help": "Host NQN list",
+                "nargs": "+",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "get_io_stats",
+            "aliases": [],
+            "help": "Get I/O stats for namespaces",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              }
+            ]
+          },
+          {
+            "action": "list",
+            "aliases": [],
+            "help": "List namespaces",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "uuid",
+                "flags": [
+                  "--uuid",
+                  "-u"
+                ],
+                "help": "UUID",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "list_hosts",
+            "aliases": [],
+            "help": "List namespace's hosts",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "uuid",
+                "flags": [
+                  "--uuid",
+                  "-u"
+                ],
+                "help": "UUID",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "list_locations",
+            "aliases": [],
+            "help": "List namespace distribution by site location",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "uuid",
+                "flags": [
+                  "--uuid",
+                  "-u"
+                ],
+                "help": "UUID",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "refresh_size",
+            "aliases": [],
+            "help": "Refresh namespace size to the current RBD image size",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              }
+            ]
+          },
+          {
+            "action": "resize",
+            "aliases": [],
+            "help": "Resize a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "size",
+                "flags": [
+                  "--size"
+                ],
+                "help": "Size in bytes or specified unit (K, KB, M, MB, G, GB, T, TB, P, PB)",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "set_auto_resize",
+            "aliases": [],
+            "help": "Enable or disable namespace auto resize when RBD image is resized",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "yes,no,true,false,1,0",
+                "default": "",
+                "dest": "auto_resize_enabled",
+                "flags": [
+                  "--auto-resize-enabled"
+                ],
+                "help": "Enable or disable auto resize of namespace when RBD image is resized",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "set_qos",
+            "aliases": [],
+            "help": "Set QOS limits for a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rw_ios_per_second",
+                "flags": [
+                  "--rw-ios-per-second"
+                ],
+                "help": "R/W IOs per second limit, 0 means unlimited",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "rw_megabytes_per_second",
+                "flags": [
+                  "--rw-megabytes-per-second"
+                ],
+                "help": "R/W megabytes per second limit, 0 means unlimited",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "r_megabytes_per_second",
+                "flags": [
+                  "--r-megabytes-per-second"
+                ],
+                "help": "Read megabytes per second limit, 0 means unlimited",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "w_megabytes_per_second",
+                "flags": [
+                  "--w-megabytes-per-second"
+                ],
+                "help": "Write megabytes per second limit, 0 means unlimited",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Set QOS limits even if they were changed by RBD",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "set_rbd_trash_image",
+            "aliases": [],
+            "help": "Set the RBD trash image on delete flag for a namespace",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              },
+              {
+                "choices": "yes,no,true,false,1,0",
+                "default": "",
+                "dest": "rbd_trash_image_on_delete",
+                "flags": [
+                  "--rbd-trash-image-on-delete"
+                ],
+                "help": "When deleting the namespace, trash associated RBD image. Only applies to images created automatically by the gateway",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "unpin",
+            "aliases": [],
+            "help": "Unpin namespace load balancing group",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "nsid",
+                "flags": [
+                  "--nsid"
+                ],
+                "help": "Namespace ID",
+                "nargs": "",
+                "required": true,
+                "type": "int"
+              }
+            ]
+          }
+        ],
+        "aliases": [
+          "ns"
+        ],
+        "command": "namespace",
+        "help": "Namespace commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "disable",
+            "aliases": [],
+            "help": "Disable SPDK log flags",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "extra_log_flags",
+                "flags": [
+                  "--extra-log-flags",
+                  "-e"
+                ],
+                "help": "Extra log flags to reset, not NVMF ones",
+                "nargs": "+",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "get",
+            "aliases": [],
+            "help": "Get SPDK log levels and nvmf log flags",
+            "options": [
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "all_log_flags",
+                "flags": [
+                  "--all-log-flags",
+                  "-a"
+                ],
+                "help": "Get all log flags, not just the NVMF ones",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "set",
+            "aliases": [],
+            "help": "Set SPDK log levels and nvmf log flags",
+            "options": [
+              {
+                "choices": "error,warning,notice,info,debug",
+                "default": "",
+                "dest": "level",
+                "flags": [
+                  "--level",
+                  "-l"
+                ],
+                "help": "SPDK log level",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "error,warning,notice,info,debug",
+                "default": "",
+                "dest": "print",
+                "flags": [
+                  "--print",
+                  "-p"
+                ],
+                "help": "SPDK log print level",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "extra_log_flags",
+                "flags": [
+                  "--extra-log-flags",
+                  "-e"
+                ],
+                "help": "Extra log flags to set, not NVMF ones",
+                "nargs": "+",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          }
+        ],
+        "aliases": [],
+        "command": "spdk_log_level",
+        "help": "SPDK log level commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "add",
+            "aliases": [],
+            "help": "Create a subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "serial_number",
+                "flags": [
+                  "--serial-number",
+                  "-s"
+                ],
+                "help": "Serial number",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "max_namespaces",
+                "flags": [
+                  "--max-namespaces",
+                  "-m"
+                ],
+                "help": "Maximum number of namespaces",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "no_group_append",
+                "flags": [
+                  "--no-group-append"
+                ],
+                "help": "Do not append gateway group name to the NQN",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_key",
+                "flags": [
+                  "--dhchap-key",
+                  "-k"
+                ],
+                "help": "Subsystem DH-HMAC-CHAP key",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "network_mask",
+                "flags": [
+                  "--network-mask"
+                ],
+                "help": "For this subnet, automatically create listeners for this subsystem",
+                "nargs": "+",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "use_group_config_network_masks",
+                "flags": [
+                  "--use-group-config-network-masks"
+                ],
+                "help": "Automatically create listeners for this subsystem using the gateway group config's listener network masks",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "port",
+                "flags": [
+                  "--port",
+                  "-p"
+                ],
+                "help": "Port to use for the created listeners",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "secure_listeners",
+                "flags": [
+                  "--secure-listeners"
+                ],
+                "help": "Make all the auto-listeners for this subsystem secure",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "model_name",
+                "flags": [
+                  "--model-name"
+                ],
+                "help": "Subsystem model name",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "add_kmip_server_endpoint",
+            "aliases": [],
+            "help": "Add a KMIP server endpoint to the subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "server_name",
+                "flags": [
+                  "--server-name",
+                  "-s"
+                ],
+                "help": "name of the KMIP server the endpoint points to",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "address",
+                "flags": [
+                  "--address",
+                  "-a"
+                ],
+                "help": "KMIP server endpoint address",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "port",
+                "flags": [
+                  "--port",
+                  "-p"
+                ],
+                "help": "KMIP server endpoint port",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              }
+            ]
+          },
+          {
+            "action": "add_network",
+            "aliases": [],
+            "help": "Add a network mask in the subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "network_mask",
+                "flags": [
+                  "--network-mask"
+                ],
+                "help": "New network mask to add",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "change_key",
+            "aliases": [],
+            "help": "Change subsystem inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "dhchap_key",
+                "flags": [
+                  "--dhchap-key",
+                  "-k"
+                ],
+                "help": "Subsystem DH-HMAC-CHAP key",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "del",
+            "aliases": [],
+            "help": "Delete a subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Delete subsystem's namespaces if any, then delete subsystem. If not set a subsystem deletion would fail in case it contains namespaces",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "i_am_sure",
+                "flags": [
+                  "--i-am-sure"
+                ],
+                "help": "Confirmation for deleting the namespace associated RBD image",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del_key",
+            "aliases": [],
+            "help": "Delete subsystem inband authentication key",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "del_kmip_server_endpoint",
+            "aliases": [],
+            "help": "Delete a KMIP server endpoint from the subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "server_name",
+                "flags": [
+                  "--server-name",
+                  "-s"
+                ],
+                "help": "name of the KMIP server the endpoint points to",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "address",
+                "flags": [
+                  "--address",
+                  "-a"
+                ],
+                "help": "KMIP server endpoint address",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "port",
+                "flags": [
+                  "--port",
+                  "-p"
+                ],
+                "help": "KMIP server endpoint port",
+                "nargs": "",
+                "required": false,
+                "type": "int"
+              },
+              {
+                "choices": "",
+                "default": "False",
+                "dest": "force",
+                "flags": [
+                  "--force"
+                ],
+                "help": "Allow deleting the KMIP server's endpoint even if encrypted (or degraded) namespaces still use it",
+                "nargs": 0,
+                "required": false,
+                "type": "flag"
+              }
+            ]
+          },
+          {
+            "action": "del_network",
+            "aliases": [],
+            "help": "Delete a network mask in the subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "network_mask",
+                "flags": [
+                  "--network-mask"
+                ],
+                "help": "Existing network mask to delete",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "list",
+            "aliases": [],
+            "help": "List subsystems",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "serial_number",
+                "flags": [
+                  "--serial-number",
+                  "-s"
+                ],
+                "help": "Serial number",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "list_kmip_server_endpoints",
+            "aliases": [],
+            "help": "List KMIP server endpoints for a subsystem or all subsystems",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "only show endpoints for this subsystem NQN",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              },
+              {
+                "choices": "",
+                "default": "",
+                "dest": "server_name",
+                "flags": [
+                  "--server-name",
+                  "-s"
+                ],
+                "help": "only show endpoints for this KMIP server name",
+                "nargs": "",
+                "required": false,
+                "type": "str"
+              }
+            ]
+          },
+          {
+            "action": "set_use_group_config_network_masks",
+            "aliases": [],
+            "help": "Enable or disable the group config network mask for the subsystem",
+            "options": [
+              {
+                "choices": "",
+                "default": "",
+                "dest": "subsystem",
+                "flags": [
+                  "--subsystem",
+                  "-n"
+                ],
+                "help": "Subsystem NQN",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              },
+              {
+                "choices": "yes,no,true,false,1,0",
+                "default": "",
+                "dest": "use_group_config_network_masks",
+                "flags": [
+                  "--use-group-config-network-masks"
+                ],
+                "help": "Enable or disable the group config network mask for the subsystem",
+                "nargs": "",
+                "required": true,
+                "type": "str"
+              }
+            ]
+          }
+        ],
+        "aliases": [],
+        "command": "subsystem",
+        "help": "Subsystem commands"
+      },
+      {
+        "actions": [
+          {
+            "action": "",
+            "aliases": [],
+            "help": "Get CLI version",
+            "options": []
+          }
+        ],
+        "aliases": [],
+        "command": "version",
+        "help": "Get CLI version"
+      }
+    ],
+    "global_options": [
+      {
+        "choices": "text,json,yaml,plain,python",
+        "default": "text",
+        "dest": "format",
+        "flags": [
+          "--format"
+        ],
+        "help": "CLI output format",
+        "nargs": "",
+        "required": false,
+        "type": "str"
+      },
+      {
+        "choices": "log,stdio",
+        "default": "log",
+        "dest": "output",
+        "flags": [
+          "--output"
+        ],
+        "help": "CLI output method",
+        "nargs": "",
+        "required": false,
+        "type": "str"
+      },
+      {
+        "choices": "debug,info,warning,error,critical",
+        "default": "info",
+        "dest": "log_level",
+        "flags": [
+          "--log-level"
+        ],
+        "help": "CLI log level",
+        "nargs": "",
+        "required": false,
+        "type": "str"
+      },
+      {
+        "choices": "",
+        "default": "localhost",
+        "dest": "server_address",
+        "flags": [
+          "--server-address"
+        ],
+        "help": "Server address (default: CEPH_NVMEOF_SERVER_ADDRESS env variable or 'localhost')",
+        "nargs": "",
+        "required": false,
+        "type": "str"
+      },
+      {
+        "choices": "",
+        "default": "5500",
+        "dest": "server_port",
+        "flags": [
+          "--server-port"
+        ],
+        "help": "Server port (default: CEPH_NVMEOF_SERVER_PORT env variable or '5500')",
+        "nargs": "",
+        "required": false,
+        "type": "int"
+      },
+      {
+        "choices": "",
+        "default": "",
+        "dest": "client_key",
+        "flags": [
+          "--client-key"
+        ],
+        "help": "Path to the client key file",
+        "nargs": "",
+        "required": false,
+        "type": "path"
+      },
+      {
+        "choices": "",
+        "default": "",
+        "dest": "client_cert",
+        "flags": [
+          "--client-cert"
+        ],
+        "help": "Path to the client certificate file",
+        "nargs": "",
+        "required": false,
+        "type": "path"
+      },
+      {
+        "choices": "",
+        "default": "",
+        "dest": "server_cert",
+        "flags": [
+          "--server-cert"
+        ],
+        "help": "Path to the server certificate file",
+        "nargs": "",
+        "required": false,
+        "type": "path"
+      },
+      {
+        "choices": "",
+        "default": "4",
+        "dest": "max_message_length",
+        "flags": [
+          "--max-message-length"
+        ],
+        "help": "Max message length, in MB",
+        "nargs": "",
+        "required": false,
+        "type": "int"
+      },
+      {
+        "choices": "",
+        "default": "False",
+        "dest": "verbose",
+        "flags": [
+          "--verbose"
+        ],
+        "help": "Run CLI in verbose mode",
+        "nargs": 0,
+        "required": false,
+        "type": "flag"
+      }
+    ]
+  }
+}
