@@ -312,6 +312,9 @@ jobs:
       CEPH_CLUSTER_VERSION: ${{ needs.build-ceph.outputs.ceph_version }}
       NVMEOF_CEPH_VERSION: ${{ needs.build-ceph.outputs.ceph_version }}
       SPDK_CEPH_VERSION: ${{ needs.build-ceph.outputs.ceph_version }}
+      # Have Bob explain each distinct failure as it happens. Set the repo
+      # variable BOB_ENABLED to 0 to turn it off without editing this file.
+      BOB_ENABLED: ${{ vars.BOB_ENABLED || '1' }}
     steps:
       - name: Reclaim workspace from previous runs
         run: |
@@ -340,6 +343,23 @@ jobs:
           # which works but costs an extra docker exec per JSON read.
           jq --version || echo "no host jq, will use the one in the ceph container"
 
+      # Bob explains failing checks inline. It is a reporting aid: if any of
+      # this does not work the suites still run, they just fall back to the
+      # built-in diagnose() patterns.
+      - name: Set up Node for Bob
+        if: env.BOB_ENABLED == '1'
+        continue-on-error: true
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Bob
+        if: env.BOB_ENABLED == '1'
+        continue-on-error: true
+        run: |
+          curl -fsSL https://bob.ibm.com/download/bobshell.sh | bash
+          bob --version || echo "bob did not install; analysis will be skipped"
+
       - name: Setup huge pages
         run: |
           make setup HUGEPAGES=$HUGEPAGES
@@ -364,6 +384,12 @@ jobs:
       # the suites. It leaves the cluster up so the log steps below can reach
       # into the containers.
       - name: Run ${{ matrix.target }}
+        env:
+          # Preferred source: a repository secret, which Actions masks in the
+          # log. When it is unset, lib/bob.sh falls back to the key file on
+          # the runner (/etc/gh_runner/bob.env, 0640 root:cephnvme). The key
+          # is never stored in this repository.
+          BOBSHELL_API_KEY: ${{ secrets.BOBSHELL_API_KEY }}
         run: |
           ./tests/gh_runner/run.sh ${{ matrix.target }}
 

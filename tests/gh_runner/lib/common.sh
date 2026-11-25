@@ -17,6 +17,8 @@ GH_RUNNER_COMMON_SOURCED=1
 printf -v _bar '%130s' ''
 SECBAR=${_bar// /#}     # section titles
 CMDBAR=${_bar// /-}     # around each command
+# shellcheck disable=SC2034  # read by bob_analyze in lib/bob.sh
+BOBBAR=${_bar// /=}     # around a Bob analysis
 unset _bar
 
 # Assertion tallies for the current suite.
@@ -28,6 +30,38 @@ FAILED_CHECKS=()
 # need to explain a failure. Only reliable when the wrapper ran in this shell
 # rather than inside `$( )`.
 LAST_ERR=""
+
+# The same thing again, but through a file.
+#
+# A check like `assert_eq x "$(nvmeof_json ...)" "..."` runs its command in a
+# subshell, so any variable the wrapper sets there is gone by the time the
+# assertion fails and wants to report on it. A file survives that, which is
+# what lets Bob be told the command that actually produced the bad value.
+#
+# Removed by suite_exit rather than by a trap here: a suite installs its own
+# `trap suite_exit EXIT`, which would replace anything set at this point.
+LAST_CMD_FILE="$(mktemp -t gh_runner_lastcmd.XXXXXX)"
+
+#
+# Remember the command and its result for whoever has to explain a failure.
+#
+record_last() {
+    { printf 'CMD\t%s\n' "$1"
+      printf 'RC\t%s\n' "$4"
+      printf 'OUT\t%s\n' "${2//$'\n'/\\n}"
+      printf 'ERR\t%s\n' "${3//$'\n'/\\n}"
+    } > "$LAST_CMD_FILE" 2>/dev/null || true
+}
+
+#
+# Read a field back out. recall_last CMD|OUT|ERR|RC
+#
+recall_last() {
+    [ -r "$LAST_CMD_FILE" ] || return 0
+    local line
+    line="$(grep -m1 "^$1"$'\t' "$LAST_CMD_FILE" 2>/dev/null)" || return 0
+    printf '%b' "${line#*$'\t'}"
+}
 
 # fd 3 is the transcript. Command tracing goes there rather than to stdout,
 # because `out=$(nvmeof_json ...)` and `cmd 2>&1` would otherwise swallow the
@@ -249,7 +283,27 @@ _fail() {
         echo "   $reason"
     fi
     _record failed "$desc" "$reason"
+    _ask_bob "$desc"
     return 0
+}
+
+#
+# Hand the failure to Bob, before the suite moves on to the next check.
+#
+# The command and its output are read back out of LAST_CMD_FILE rather than
+# from variables, so a check whose value came out of `$( )` -- where a
+# subshell would have thrown the variables away -- still reports the command
+# that actually produced the bad value.
+#
+# A no-op unless lib/bob.sh has been sourced and BOB_ENABLED=1.
+#
+_ask_bob() {
+    declare -F bob_analyze > /dev/null 2>&1 || return 0
+    bob_analyze "$1" \
+        "$(recall_last CMD)" \
+        "$(recall_last OUT)" \
+        "$(recall_last ERR)" \
+        "$(recall_last RC)"
 }
 
 #
@@ -412,6 +466,7 @@ suite_exit() {
         section "Cleanup: ${SUITE_NAME:-suite}"
         suite_cleanup
     fi
+    rm -f "$LAST_CMD_FILE"
     finish || rc=1
     exit "$rc"
 }

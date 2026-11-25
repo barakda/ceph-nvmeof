@@ -17,6 +17,10 @@
 [ -n "${GH_RUNNER_CLUSTER_SOURCED:-}" ] && return 0
 GH_RUNNER_CLUSTER_SOURCED=1
 
+# Failure analysis. Inert unless BOB_ENABLED=1, so sourcing it always is safe.
+# shellcheck source=tests/gh_runner/lib/bob.sh
+source "$(dirname "${BASH_SOURCE[0]}")/bob.sh"
+
 RBD_POOL="${RBD_POOL:-rbd}"
 NVMEOF_GW_PORT="${NVMEOF_GW_PORT:-5500}"
 
@@ -57,6 +61,8 @@ _ceph_exec() {
     # Read by assert_ok -> diagnose() in common.sh.
     # shellcheck disable=SC2034
     LAST_ERR="$err"
+    # And again through a file, which survives `$( )`, for Bob.
+    record_last "$(shell_quote "${argv[@]}")" "$out" "$err" "$rc"
 
     [ -n "$out" ] && printf '%s\n' "$out"
     return "$rc"

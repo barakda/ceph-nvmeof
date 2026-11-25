@@ -136,6 +136,102 @@ text that has actually come out of this stack; when nothing matches it echoes
 the `Error EXXX:` line rather than guessing, because a confident wrong cause
 is worse than none. Add a case there when you hit a new one.
 
+## Bob failure analysis
+
+When a check fails, Bob is asked to explain it before the suite moves on. It
+reads the command, the output, and the two sources of truth — ceph-nvmeof
+`devel` and ceph `main` — and answers three things: the root cause, whether
+it is a **test bug** or a **product bug**, and the fix.
+
+```
+❌ subsystem add with only --nqn
+    ROOT CAUSE: A name contains "_" ...
+
+    BOB: analysing (1/8)...
+==============================================================================
+BOB ANALYSIS: subsystem add with only --nqn
+==============================================================================
+    1. ROOT CAUSE: ...
+    2. VERDICT: TEST BUG
+    3. FIX: ...
+```
+
+Bob never changes a verdict. A failed check stays failed whatever Bob says,
+and Bob being missing, unauthenticated or slow is a warning rather than a
+failure — this is a reporting aid, not an assertion.
+
+### Keeping it affordable
+
+A trivial Bob prompt measured ~8s and ~$0.02; one that reads two repositories
+costs more. The first full run produced 72 failures, and the run before that
+had 44 of its 53 failures coming from a *single* root cause. Analysing every
+one would be slow and wasteful, so:
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `BOB_ENABLED` | `0` (`1` in CI) | Off locally so a run cannot spend money by surprise |
+| `BOB_DEDUP` | `1` | Identical failures are analysed once per suite |
+| `BOB_MAX_ANALYSES` | `8` | Distinct failures analysed per suite |
+| `BOB_MAX_TURNS` | `12` | Passed to `bob run --max-turns` |
+| `BOB_MAX_COST` | `0.60` | Passed to `bob run --max-cost` |
+| `BOB_TIMEOUT` | `240` | Hard timeout per analysis, in seconds |
+| `BOB_CMD` | `bob` | Override if the binary is elsewhere |
+| `BOB_WORKSPACE` | repo root | The checkout Bob reads from |
+| `BOB_CEPH_SRC` | `/opt/ceph-src` | A ceph.git checkout, if the runner has one |
+
+`BOB_MAX_TURNS` and `BOB_MAX_COST` look generous on purpose. Measured on a
+real failure: at `--max-turns 12` Bob spent 13 tool calls fetching ceph
+sources, hit the cap and returned **no answer at all** — $0.63 for nothing.
+A budget too small to finish is worse than no analysis, so the per-call caps
+are set where the work completes and `BOB_MAX_ANALYSES` bounds the total
+instead. When Bob does run out anyway, the harness says so rather than
+printing a wall of tool calls with no conclusion in it.
+
+Giving Bob a local ceph checkout at `BOB_CEPH_SRC` is the single biggest
+saving: the same analysis took 15 tool calls and ~$0.73 fetching the mgr
+sources from GitHub, where grepping them on disk is a couple of calls. It is
+an optimisation, not a requirement — without it Bob fetches from the raw
+URLs.
+
+Deduplication keys on the `Error EXXX:` line with NQNs and numbers stripped,
+so the same bug hit from three namespaces is reported once.
+
+### Bob credentials
+
+**Never put the API key in this repository.** Two supported sources, checked
+in this order:
+
+1. **`BOBSHELL_API_KEY` in the environment.** In CI this comes from a
+   repository secret (Settings → Secrets and variables → Actions →
+   `BOBSHELL_API_KEY`). Actions masks registered secrets in the log. This is
+   the preferred source: nothing is stored on the runner, and it survives the
+   machine being rebuilt.
+
+2. **A key file on the runner**, `/etc/gh_runner/bob.env`, mode `0640`, owned
+   `root:cephnvme` so that only root and the Actions runner user can read it:
+
+   ```
+   BOBSHELL_API_KEY=bob_prod_...
+   ```
+
+   Override the path with `BOB_KEY_FILE`. To install or rotate it without the
+   key ever reaching the process list or your shell history, pipe it in:
+
+   ```bash
+   printf 'BOBSHELL_API_KEY=%s\n' 'THE_NEW_KEY' | ssh root@<runner> '
+       install -d -m 0750 -o root -g cephnvme /etc/gh_runner
+       umask 077 && cat > /etc/gh_runner/bob.env
+       chown root:cephnvme /etc/gh_runner/bob.env
+       chmod 0640 /etc/gh_runner/bob.env'
+   ```
+
+   A caveat worth knowing: any job on that self-hosted runner can read this
+   file. On a runner that builds pull requests from forks, prefer option 1.
+
+The key is only ever passed to Bob through the environment, never as a
+command-line argument, so it cannot show up in a process list or in the
+command trace.
+
 ## Running the commands by hand
 
 `nvmeof_cmd` and friends are shell functions, not programs — they do not exist
