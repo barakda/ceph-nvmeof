@@ -293,7 +293,13 @@ jobs:
         include:
           - target: single_gw
             name: single_gw
-            timeout: 40
+            timeout: 60  # gateway, subsystem, namespace, listener, host, connection, top
+          - target: secure
+            name: secure
+            timeout: 40  # DH-HMAC-CHAP, PSK, KMIP endpoints
+          - target: multi_gw
+            name: multi_gw
+            timeout: 40  # ceph nvme-gw HA, load balancing groups
           # BRKD - do not run qos_fio_run. Restore the three lines below before the final review.
           # - target: single_gw/qos
           #   name: qos_fio_run

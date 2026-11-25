@@ -111,6 +111,14 @@ nvme_gw_cmd() {
 }
 
 #
+# `rbd ...` inside the ceph container, for checking what a namespace did to
+# the image behind it.
+#
+rbd_cmd() {
+    _ceph_exec rbd "$@"
+}
+
+#
 # json_get <jq filter>, reading JSON on stdin.
 #
 # jq is not guaranteed on the runner host but is installed in the ceph image,
@@ -231,6 +239,34 @@ suite_begin() {
 suite_nqn() {
     local suffix="${1:-1}"
     echo "nqn.2016-06.io.spdk:${SUITE_PREFIX:?suite_begin was not called}-${suffix//_/-}"
+}
+
+#
+# An RBD image name belonging to this suite.
+#
+suite_image() {
+    echo "${SUITE_PREFIX:?suite_begin was not called}-${1:-1}"
+}
+
+#
+# Remove every RBD image this suite created.
+#
+# Deleting a namespace does not delete the image behind it unless the
+# namespace was told to trash it, so images outlive their subsystem and would
+# otherwise collect across runs and collide on the next one.
+#
+suite_cleanup_images() {
+    local img
+    while read -r img; do
+        [ -n "$img" ] || continue
+        case "$img" in
+            *"${SUITE_PREFIX:?}"*) ;;
+            *) continue ;;
+        esac
+        log "cleanup: removing image $img"
+        rbd_cmd -p "$RBD_POOL" rm "$img" > /dev/null 2>&1 ||
+            warn "cleanup: could not remove image $img"
+    done < <(rbd_cmd -p "$RBD_POOL" ls 2>/dev/null)
 }
 
 #

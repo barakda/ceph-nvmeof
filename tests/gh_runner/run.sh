@@ -142,13 +142,15 @@ fi
 require_gateways "$GATEWAYS"
 
 # start_up.sh returns only after the ceph container is healthy. Wait until
-# the CLI actually answers, then print the snapshot. ceph orch ls has no
-# orchestrator on a vstart cluster, so its failure is still shown and ignored.
+# the CLI actually answers, then print the snapshot.
+#
+# No `ceph orch ls` here: a vstart cluster has no orchestrator, so it only
+# ever prints "Error ENOENT: No orchestrator configured" and reads like a
+# real failure in the log.
 section "Cluster snapshot"
 if ! wait_until 120 ceph_cmd version; then
     die "ceph is not accepting commands"
 fi
-ceph_cmd orch ls || true
 ceph_cmd -s || die "ceph -s failed"
 ceph_cmd version || die "ceph version failed"
 run docker ps || die "docker ps failed"

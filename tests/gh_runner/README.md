@@ -43,6 +43,33 @@ prefix is for.
 suites leave authentication turned on while they run, which would break the
 unauthenticated suites sharing a cluster with them.
 
+### Suites
+
+| Suite | Covers |
+| --- | --- |
+| `single_gw/gateway` | info, version, log levels, stats, io stats mode, spdk_log_level, get_subsystems |
+| `single_gw/subsystem` | add, del, list, get, network masks |
+| `single_gw/namespace` | add, del, list, get, update, resize, refresh_size, auto resize, visibility, hosts, qos, io stats, location, unpin, trash image |
+| `single_gw/listener` | add, del, list, plus `gateway listener_info` and `refresh_network` |
+| `single_gw/host` | add, del, list, the `*` wildcard |
+| `single_gw/connection` | list, io statistics, extended io statistics |
+| `single_gw/top` | `nvmeof top io`, `cpu`, `connection` |
+| `single_gw/qos` | the fio soak (excluded from the shape; run it by name) |
+| `secure/subsystem` | DH-HMAC-CHAP subsystem key, KMIP endpoints |
+| `secure/host` | host keys, controller keys, PSKs |
+| `multi_gw/ha` | every `ceph nvme-gw` command |
+| `multi_gw/namespace` | load balancing groups across two gateways |
+
+To see what is not yet exercised:
+
+```bash
+python3 tests/gh_runner/tools/check_coverage.py -v
+```
+
+It reports whether each command in the matrix is *invoked* by a suite, which
+is the floor rather than the finish line — it says nothing about how well the
+result is checked.
+
 ## Running
 
     ./tests/gh_runner/run.sh single_gw              # every suite of a shape
