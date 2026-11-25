@@ -105,6 +105,8 @@ log_out() {
 #
 diagnose() {
     local err="$1" rc="${2:-}" why=""
+    # Read by assert_ok, which stores this text in the end-of-run results table.
+    DIAGNOSIS=""
 
     # Order matters: the environment-level causes come first, because their
     # messages contain phrases such as "does not exist" that the generic
@@ -161,6 +163,7 @@ step in this suite failed and this one depends on it." ;;
         [ -n "$why" ] || return 0
     fi
 
+    DIAGNOSIS="$why"
     printf '    ROOT CAUSE: ' >&3
     printf '%s\n' "$why" | sed '2,$s/^/                /' >&3
 }
@@ -211,9 +214,25 @@ die() {
     exit 1
 }
 
+#
+# One row of the table run.sh prints after the last suite. Append-only so each
+# suite, which runs in its own process, can contribute. No-op when a suite is
+# executed on its own and run.sh has not set the file.
+#
+_record() {
+    local result="$1" desc="$2" reason="${3:-}"
+    [ -n "${GH_RUNNER_RESULTS:-}" ] || return 0
+    local name="$desc"
+    [ -n "${SUITE_NAME:-}" ] && name="$SUITE_NAME: $desc"
+    reason="${reason//$'\t'/ }"
+    reason="${reason//$'\n'/ }"
+    printf '%s\t%s\t%s\n' "$name" "$result" "$reason" >> "$GH_RUNNER_RESULTS"
+}
+
 _pass() {
     CHECKS_PASSED=$((CHECKS_PASSED + 1))
     echo "✅ $1"
+    _record pass "$1"
 }
 
 #
@@ -221,10 +240,15 @@ _pass() {
 # so that one CI job reports every problem it can find, not just the first.
 #
 _fail() {
+    local desc="$1" reason="${2:-}" show="${3:-show}"
     CHECKS_FAILED=$((CHECKS_FAILED + 1))
-    FAILED_CHECKS+=("$1")
-    echo "❌ $1"
-    [ -n "${2:-}" ] && echo "   $2"
+    FAILED_CHECKS+=("$desc")
+    echo "❌ $desc"
+    # assert_ok already printed this text as ROOT CAUSE.
+    if [ -n "$reason" ] && [ "$show" != "quiet" ]; then
+        echo "   $reason"
+    fi
+    _record failed "$desc" "$reason"
     return 0
 }
 
@@ -244,8 +268,8 @@ assert_ok() {
         _pass "$desc"
     else
         # The status is already on the command's own block, just above.
-        _fail "$desc"
         diagnose "$LAST_ERR" "$status"
+        _fail "$desc" "${DIAGNOSIS:-command failed}" quiet
     fi
     return 0
 }
@@ -417,4 +441,53 @@ finish() {
     fi
     echo "✅ $name passed"
     return 0
+}
+
+#
+# The table at the end of a run.sh console.
+#
+# Column 1 is the suite and the check. Column 2 is pass or failed. Column 3
+# is empty for a pass, and for a failure it is the expected/got text or the
+# ceph error line.
+#
+print_results_table() {
+    local name result reason
+    local -a names=() results=() reasons=()
+    local name_w=9 result_w=11
+    local sep_name sep_result i passed=0 failed=0
+
+    if [ -s "${GH_RUNNER_RESULTS:-}" ]; then
+        while IFS=$'\t' read -r name result reason || [ -n "${name:-}" ]; do
+            names+=("$name")
+            results+=("$result")
+            reasons+=("${reason:-}")
+            [ "${#name}" -gt "$name_w" ] && name_w=${#name}
+            [ "${#result}" -gt "$result_w" ] && result_w=${#result}
+            name=""
+        done < "$GH_RUNNER_RESULTS"
+    fi
+
+    section "Test results"
+    if [ "${#names[@]}" -eq 0 ]; then
+        echo "(no checks recorded)"
+        return 0
+    fi
+
+    printf -v sep_name '%*s' "$name_w" ''
+    sep_name=${sep_name// /-}
+    printf -v sep_result '%*s' "$result_w" ''
+    sep_result=${sep_result// /-}
+    printf '%-*s  %-*s  %s\n' "$name_w" "test name" "$result_w" "pass/failed" "failure reason"
+    printf '%-*s  %-*s  %s\n' "$name_w" "$sep_name" "$result_w" "$sep_result" "--------------"
+    for i in "${!names[@]}"; do
+        printf '%-*s  %-*s  %s\n' \
+            "$name_w" "${names[$i]}" "$result_w" "${results[$i]}" "${reasons[$i]}"
+        if [ "${results[$i]}" = "pass" ]; then
+            passed=$((passed + 1))
+        else
+            failed=$((failed + 1))
+        fi
+    done
+    echo
+    echo "checks passed: $passed    checks failed: $failed"
 }

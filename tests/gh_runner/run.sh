@@ -140,6 +140,19 @@ else
 fi
 
 require_gateways "$GATEWAYS"
+
+# start_up.sh returns only after the ceph container is healthy. Wait until
+# the CLI actually answers, then print the snapshot. ceph orch ls has no
+# orchestrator on a vstart cluster, so its failure is still shown and ignored.
+section "Cluster snapshot"
+if ! wait_until 120 ceph_cmd version; then
+    die "ceph is not accepting commands"
+fi
+ceph_cmd orch ls || true
+ceph_cmd -s || die "ceph -s failed"
+ceph_cmd version || die "ceph version failed"
+run docker ps || die "docker ps failed"
+
 nvmeof_cli_setup
 
 # ---------------------------------------------------------------------------
@@ -148,14 +161,22 @@ nvmeof_cli_setup
 
 PASSED=()
 FAILED=()
+GH_RUNNER_RESULTS="$(mktemp)"
+export GH_RUNNER_RESULTS
 
 for script in "${SCRIPTS[@]}"; do
     name="${script#"$HERE"/}"
     section "Running $name"
+    lines_before=$(wc -l < "$GH_RUNNER_RESULTS")
     if bash "$script"; then
         PASSED+=("$name")
     else
         FAILED+=("$name")
+        lines_after=$(wc -l < "$GH_RUNNER_RESULTS")
+        if [ "$lines_after" -eq "$lines_before" ]; then
+            printf '%s\tfailed\texited without a recorded check\n' \
+                "$name" >> "$GH_RUNNER_RESULTS"
+        fi
     fi
     run docker compose ps
 done
@@ -166,5 +187,12 @@ for name in "${PASSED[@]}"; do echo "  ✅ $name"; done
 echo "failed: ${#FAILED[@]}"
 for name in "${FAILED[@]}"; do echo "  ❌ $name"; done
 
+if [ "${#FAILED[@]}" -eq 0 ]; then
+    echo "✅ all suites passed"
+else
+    echo "❌ ${#FAILED[@]} suite(s) failed"
+fi
+print_results_table
+rm -f "$GH_RUNNER_RESULTS"
+
 [ "${#FAILED[@]}" -eq 0 ] || exit 1
-echo "✅ all suites passed"

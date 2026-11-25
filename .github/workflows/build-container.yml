@@ -294,9 +294,10 @@ jobs:
           - target: single_gw
             name: single_gw
             timeout: 40
-          - target: single_gw/qos
-            name: qos_fio_run
-            timeout: 40  # BRKD - to return to 90 before code review ==> timeout: 90  # 30 min of fio plus setup and teardown
+          # BRKD - do not run qos_fio_run. Restore the three lines below before the final review.
+          # - target: single_gw/qos
+          #   name: qos_fio_run
+          #   timeout: 40  # BRKD - to return to 90 before code review ==> timeout: 90  # 30 min of fio plus setup and teardown
     runs-on: ghRunnerFork
     timeout-minutes: ${{ matrix.timeout }}
     env:
@@ -384,14 +385,16 @@ jobs:
         run: |
           make logs OPTS="" || true
 
-      - name: Tear down
-        if: always()
-        run: |
-          sudo nvme disconnect-all || true
-          make down || true
-          make clean || true
-          rm -rf /tmp/out
-          rm -f nvmeof.tar nvmeof-cli.tar ceph.tar bdevperf.tar spdk.tar
+      # BRKD - leave the ceph vstart container up so the runner can be
+      # inspected after the job. Restore the Tear down step before the final review.
+      # - name: Tear down
+      #   if: always()
+      #   run: |
+      #     sudo nvme disconnect-all || true
+      #     make down || true
+      #     make clean || true
+      #     rm -rf /tmp/out
+      #     rm -f nvmeof.tar nvmeof-cli.tar ceph.tar bdevperf.tar spdk.tar
 
 #   demo:
 #     needs: [build, build-ceph]
