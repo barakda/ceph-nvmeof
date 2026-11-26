@@ -22,17 +22,44 @@ source "$HERE/lib/cluster.sh"
 
 suite_begin "subsystem/020_kmip"
 
-suite_cleanup() {
-    suite_cleanup_subsystems
-}
-trap suite_exit EXIT
-
 NQN="$(suite_nqn kmip)"
 SERVER_A="gh-kmip-a"
 SERVER_B="gh-kmip-b"
 ADDRESS="10.252.0.10"
 DEFAULT_PORT=5696
 ALT_PORT=5697
+
+# The gateway's [kmip] cert_dir is ./certs/kmip/{server_name}, resolved
+# against its WORKDIR of /src, and docker-compose.yaml bind-mounts the host's
+# /etc/kmip onto /src/certs/kmip. So the per-server directory the gateway
+# looks in is $KMIP_CERT_ROOT/<server name> on this host.
+KMIP_CERT_ROOT="/etc/kmip"
+KMIP_CERT_DIRS=()
+
+suite_cleanup() {
+    local dir
+    for dir in "${KMIP_CERT_DIRS[@]+"${KMIP_CERT_DIRS[@]}"}"; do
+        log "cleanup: removing $dir"
+        sudo rm -rf "$dir" || warn "cleanup: could not remove $dir"
+    done
+    suite_cleanup_subsystems
+}
+trap suite_exit EXIT
+
+#
+# Lay down the three files add_kmip_server_endpoint insists on for a server.
+#
+# are_files_valid() in control/grpc.py only checks that client_cert.pem,
+# client_key.pem and ca_cert.pem exist in the directory; nothing in this
+# suite ever talks to a KMIP server, so placeholders are enough.
+#
+kmip_provision_certs() {
+    local server="$1"
+    local dir="$KMIP_CERT_ROOT/$server"
+    run sudo mkdir -p "$dir"
+    run sudo touch "$dir/client_cert.pem" "$dir/client_key.pem" "$dir/ca_cert.pem"
+    KMIP_CERT_DIRS+=("$dir")
+}
 
 endpoint_count() {
     nvmeof_json subsystem list_kmip_server_endpoints --nqn "$NQN" |
@@ -58,6 +85,14 @@ assert_eq "0" "$(endpoint_count)" "a new subsystem has no KMIP endpoints"
 section "subsystem add_kmip_server_endpoint"
 # ---------------------------------------------------------------------------
 
+# _add_one_kmip_server_endpoint() in control/grpc.py runs
+# KMIPClientList.are_files_valid() on the server's cert_dir before it records
+# anything, and returns ENOKEY ("Missing client certificate
+# ./certs/kmip/<server>/client_cert.pem") when the directory is not there.
+# Nothing in the cluster setup creates it, so the endpoint for each server
+# name has to be given its certificate directory first.
+kmip_provision_certs "$SERVER_A"
+
 assert_ok "add_kmip_server_endpoint with an address" \
     nvmeof_cmd subsystem add_kmip_server_endpoint --nqn "$NQN" \
         --server-name "$SERVER_A" --address "$ADDRESS"
@@ -69,6 +104,10 @@ assert_eq "$ADDRESS" "$(nvmeof_json subsystem list_kmip_server_endpoints --nqn "
 assert_eq "$DEFAULT_PORT" "$(nvmeof_json subsystem list_kmip_server_endpoints --nqn "$NQN" |
     json_get "[.endpoints[] | select(.server_name == \"$SERVER_A\")] | first | .port")" \
     "the port defaults to $DEFAULT_PORT"
+
+# The second server name needs its own certificate directory, for the same
+# are_files_valid() check.
+kmip_provision_certs "$SERVER_B"
 
 assert_ok "add_kmip_server_endpoint on a non-default port" \
     nvmeof_cmd subsystem add_kmip_server_endpoint --nqn "$NQN" \

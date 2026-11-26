@@ -72,11 +72,21 @@ assert_eq "0" "$(ns_host_count "$NSID_REST")" "a restricted namespace starts wit
 section "namespace add_host / list_hosts"
 # ---------------------------------------------------------------------------
 
+# namespace_add_host_safe() in control/grpc.py refuses a host that has no
+# access to the subsystem itself ("Host is not allowed to access the
+# subsystem, use the \"force\" parameter to add the host anyway"), so the
+# two hosts have to be on the subsystem's access list before they can be
+# named on a namespace. Added here rather than in Setup so the refusal the
+# gateway was giving, and the env that removes it, read together.
+assert_ok "host add on the subsystem for the first host" \
+    nvmeof_cmd host add --nqn "$NQN" --host-nqn "$HOST_A"
 assert_ok "namespace add_host" \
     nvmeof_cmd namespace add_host --nqn "$NQN" --nsid "$NSID_REST" --host-nqn "$HOST_A"
 assert_eq "1" "$(ns_has_host "$NSID_REST" "$HOST_A")" "the host is on the namespace"
 assert_eq "1" "$(ns_host_count "$NSID_REST")" "exactly one host"
 
+assert_ok "host add on the subsystem for the second host" \
+    nvmeof_cmd host add --nqn "$NQN" --host-nqn "$HOST_B"
 assert_ok "namespace add_host for a second host" \
     nvmeof_cmd namespace add_host --nqn "$NQN" --nsid "$NSID_REST" --host-nqn "$HOST_B"
 assert_eq "2" "$(ns_host_count "$NSID_REST")" "both hosts are on the namespace"

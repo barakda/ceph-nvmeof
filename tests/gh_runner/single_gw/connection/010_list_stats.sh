@@ -89,7 +89,15 @@ assert_fails "connection list rejects an unknown subsystem" \
 section "connection get_io_statistics"
 # ---------------------------------------------------------------------------
 
-assert_ok "connection get_io_statistics" \
+# Per-host counters only exist for a host that is actually connected:
+# get_connection_io_statistics_common() in control/grpc.py calls
+# is_host_connected() as soon as both --nqn and --host-nqn are given, and
+# returns ENOTCONN when the host has no live qpair. This suite runs with no
+# initiator on the runner by design (see the header), so the only env that
+# would make the call succeed is a real `nvme connect`, which belongs to the
+# qos/fio suite. The allowed-but-unconnected host is therefore a rejection to
+# test against, not a success.
+assert_fails "connection get_io_statistics for a host that is not connected" \
     nvmeof_cmd connection get_io_statistics --nqn "$NQN" --host-nqn "$HOST"
 
 assert_fails "get_io_statistics requires --nqn" \
@@ -97,7 +105,8 @@ assert_fails "get_io_statistics requires --nqn" \
 assert_fails "get_io_statistics requires --host-nqn" \
     nvmeof_cmd connection get_io_statistics --nqn "$NQN"
 
-assert_ok "connection reset_io_statistics" \
+# Same is_host_connected() gate on the reset side.
+assert_fails "connection reset_io_statistics for a host that is not connected" \
     nvmeof_cmd connection reset_io_statistics --nqn "$NQN" --host-nqn "$HOST"
 
 assert_fails "reset_io_statistics requires --host-nqn" \
@@ -111,14 +120,16 @@ section "connection get_extended_io_statistics"
 assert_ok "connection get_extended_io_statistics for the subsystem" \
     nvmeof_cmd connection get_extended_io_statistics --nqn "$NQN"
 
-assert_ok "connection get_extended_io_statistics for one host" \
+# Naming a host brings the same is_host_connected() gate as the plain
+# variant above, so with no initiator connected these two are rejections.
+assert_fails "connection get_extended_io_statistics for a host that is not connected" \
     nvmeof_cmd connection get_extended_io_statistics --nqn "$NQN" --host-nqn "$HOST"
 
 assert_ok "connection get_extended_io_statistics --verbose-statistics-mode" \
     nvmeof_cmd connection get_extended_io_statistics --nqn "$NQN" \
         --verbose-statistics-mode=true
 
-assert_ok "connection reset_extended_io_statistics" \
+assert_fails "connection reset_extended_io_statistics for a host that is not connected" \
     nvmeof_cmd connection reset_extended_io_statistics --nqn "$NQN" --host-nqn "$HOST"
 
 assert_fails "get_extended_io_statistics rejects an unknown subsystem" \

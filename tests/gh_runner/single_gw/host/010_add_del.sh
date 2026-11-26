@@ -94,10 +94,15 @@ assert_ok "host add \"*\" opens the subsystem to everyone" \
     nvmeof_cmd host add --nqn "$OPEN_NQN" --host-nqn '*'
 assert_eq "true" "$(allows_any_host "$OPEN_NQN")" "the subsystem allows any host"
 
-# An open subsystem has no use for an individual entry, so the two cannot be
-# combined.
-assert_fails "host add of a named host is refused while \"*\" is set" \
+# An open subsystem has no use for an individual entry, but the gateway does
+# not refuse one: add_host in control/grpc.py only appends the warning
+# "Access was enabled for host ... in which all hosts are already allowed"
+# and returns success. The only refusals on that path are DH-HMAC-CHAP key
+# conflicts. So the named add is accepted and the subsystem stays open.
+assert_ok "host add of a named host is accepted while \"*\" is set" \
     nvmeof_cmd host add --nqn "$OPEN_NQN" --host-nqn "$HOST_A"
+assert_eq "true" "$(allows_any_host "$OPEN_NQN")" \
+    "the subsystem still allows any host after the named add"
 
 assert_ok "host del \"*\" closes it again" \
     nvmeof_cmd host del --nqn "$OPEN_NQN" --host-nqn '*'

@@ -6,10 +6,14 @@
 #     ceph nvmeof top cpu [--sort-by] [--no-header] ...
 #     ceph nvmeof top connection --nqn --host-nqn [--sort-by] ...
 #
-# These are registered with poll=True, which lets the ceph client re-run them
-# on an interval. A plain invocation takes one sample and returns, but every
-# call here goes through `timeout` anyway: if that ever stops being true, the
-# suite fails instead of hanging until the job's own timeout kills it.
+# These are registered with poll=True, so the ceph client re-runs them every
+# --period seconds (1 by default) and never returns on its own: the loop in
+# ceph.in's do_command() only ends on an error, on Ctrl-C, or when the period
+# is not positive. There is no --count or --once. So every call here goes
+# through `timeout`, and the command being killed at the end of that window
+# is the normal outcome -- top_cmd() below treats the resulting exit 124 as
+# success and the checks read the frames the command printed before it was
+# killed.
 #
 # --sort-by takes a column *title* rather than a field name, and the command
 # validates it, so a wrong one is a clean rejection to test against.
@@ -33,14 +37,25 @@ trap suite_exit EXIT
 NQN="$(suite_nqn top)"
 HOST="nqn.2014-08.org.nvmexpress:uuid:$(uuidgen 2>/dev/null ||
     echo 11111111-2222-3333-4444-555555555555)"
-TOP_TIMEOUT=60
+# A few seconds is enough for several frames; the command is a stream, so
+# the only thing a longer window buys is a longer suite.
+TOP_TIMEOUT=5
 
 #
 # `ceph nvmeof top ...`, never allowed to run longer than TOP_TIMEOUT.
 #
+# `timeout` reports 124 when it had to kill the command, which for a poll
+# command is what a healthy run looks like: it streamed until the window
+# closed. Report that as success, so the checks below are about the output
+# and the argument handling rather than about a command that was never going
+# to exit by itself.
+#
 top_cmd() {
+    local rc=0
     _ceph_exec timeout "$TOP_TIMEOUT" ceph nvmeof top "$@" \
-        --server-address "$NVMEOF_TARGET_ADDRESS"
+        --server-address "$NVMEOF_TARGET_ADDRESS" || rc=$?
+    [ "$rc" -eq 124 ] && rc=0
+    return "$rc"
 }
 
 # ---------------------------------------------------------------------------

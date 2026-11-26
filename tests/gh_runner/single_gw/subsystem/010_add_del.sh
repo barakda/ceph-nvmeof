@@ -87,15 +87,23 @@ assert_contains "$(nvmeof_json get_subsystems)" "$MINIMAL_NQN" \
 section "subsystem add: explicit options"
 # ---------------------------------------------------------------------------
 
+# --max-namespaces has a floor: create_subsystem in control/grpc.py compares
+# the request against MIN_VALUE_FOR_MAX_NAMESPACES_PER_SUBSYSTEM, which is
+# MAINTENANCE_ANA_GROUP (64), logs "Max namespaces can't be less than 64,
+# will increase it" and silently raises anything smaller. Asking for a value
+# below the floor therefore tests the clamp, not the option, so use one
+# above it.
+MAX_NAMESPACES=100
+
 assert_ok "subsystem add with serial number, max namespaces and model name" \
     nvmeof_cmd subsystem add --nqn "$FULL_NQN" --no-group-append \
         --serial-number "$SERIAL" \
-        --max-namespaces 17 \
+        --max-namespaces "$MAX_NAMESPACES" \
         --model-name "gh runner model"
 
 assert_eq "$SERIAL" "$(subsys_field "$FULL_NQN" serial_number)" \
     "--serial-number was applied"
-assert_eq "17" "$(subsys_field "$FULL_NQN" max_namespaces)" \
+assert_eq "$MAX_NAMESPACES" "$(subsys_field "$FULL_NQN" max_namespaces)" \
     "--max-namespaces was applied"
 assert_eq "gh runner model" "$(subsys_field "$FULL_NQN" model_number)" \
     "--model-name was applied"

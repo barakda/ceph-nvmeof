@@ -124,6 +124,19 @@ assert_fails "del_network rejects an unknown subsystem" \
 section "subsystem set_use_group_config_network_masks"
 # ---------------------------------------------------------------------------
 
+# Explicit masks and the group config masks are mutually exclusive, and the
+# gateway enforces that on the way in: set_subsystem_use_group_config_network
+# _masks_safe() in control/grpc.py returns EINVAL ("already has an explicit
+# network mask configured, delete it first") while the subsystem still holds
+# any mask of its own. The sections above leave MASK_A and MASK_C on it, so
+# clear both before turning the flag on -- without this the flag is never
+# set and the two refusal checks below find nothing to refuse.
+assert_ok "clear the explicit masks before enabling the group config masks" \
+    nvmeof_cmd subsystem del_network --nqn "$NQN" --network-mask "$MASK_A"
+assert_ok "clear the last explicit mask" \
+    nvmeof_cmd subsystem del_network --nqn "$NQN" --network-mask "$MASK_C"
+assert_eq "0" "$(mask_count)" "the subsystem has no explicit masks left"
+
 assert_ok "turn on the group config network masks" \
     nvmeof_cmd subsystem set_use_group_config_network_masks \
         --nqn "$NQN" --use-group-config-network-masks=true

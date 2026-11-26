@@ -4,7 +4,8 @@
 #
 #     ceph nvmeof listener add --nqn --host-name --traddr [--trsvcid] [--adrfam]
 #                              [--secure] [--force] [--verify-host-name]
-#     ceph nvmeof listener del --nqn --host-name --trsvcid [--adrfam] [--force]
+#     ceph nvmeof listener del --nqn --host-name --traddr [--trsvcid] [--adrfam]
+#                              [--force]
 #     ceph nvmeof listener list --nqn
 #     ceph nvmeof gateway listener_info --nqn
 #     ceph nvmeof gateway refresh_network [--nqn]
@@ -73,9 +74,13 @@ assert_eq "$GW_ADDR" "$(json_get '.listeners[0].traddr' <<< "$listener")" \
     "the listener reports the address we gave it"
 assert_eq "$GW_HOST" "$(json_get '.listeners[0].host_name' <<< "$listener")" \
     "the listener reports the gateway host name"
-# adrfam is numeric on the wire: 0 is IPv4, 1 is IPv6.
-assert_eq "0" "$(json_get '.listeners[0].adrfam' <<< "$listener")" \
-    "adrfam defaults to IPv4 (0)"
+# adrfam is numeric only on the add side, where the dashboard controller
+# defaults it to the int 0 and the proto enum has ipv4 = 0. listener_info
+# carries it back as a string (gateway.proto), and control/grpc.py fills it
+# with the lowercased enum name, so what comes out of listener list is
+# "ipv4", never 0.
+assert_eq "ipv4" "$(json_get '.listeners[0].adrfam' <<< "$listener")" \
+    "adrfam defaults to IPv4 (reported as \"ipv4\")"
 
 assert_ok "listener add on a second port" \
     nvmeof_cmd listener add --nqn "$NQN" --host-name "$GW_HOST" \
@@ -121,10 +126,16 @@ assert_ok "gw listener_info alias" nvmeof_cmd gw listener_info --nqn "$NQN"
 assert_fails "gateway listener_info requires --nqn" \
     nvmeof_cmd gateway listener_info
 
-# refresh_network re-evaluates the subsystem's network masks. This subsystem
-# has none and only manual listeners, so the call has nothing to do -- it
-# still has to succeed rather than error on the empty case.
-assert_ok "gateway refresh_network" nvmeof_cmd gateway refresh_network --nqn "$NQN"
+# refresh_network re-evaluates the subsystem's network masks, and
+# gw_refresh_network_safe() in control/grpc.py returns ENOENT ("has no
+# network masks configured") when there are none. The env that would make it
+# succeed -- a mask on this subsystem -- cannot be built here either:
+# add_subsystem_network_safe() refuses a mask while the subsystem has manual
+# listeners ("A subsystem can only use manual listeners or network mask, not
+# both"), and this suite is about manual listeners. So the empty case is a
+# rejection, and the listeners must be untouched by it.
+assert_fails "gateway refresh_network without network masks" \
+    nvmeof_cmd gateway refresh_network --nqn "$NQN"
 assert_eq "2" "$(listener_count)" "refresh_network left the manual listeners alone"
 
 # ---------------------------------------------------------------------------
@@ -134,11 +145,19 @@ section "listener del"
 assert_fails "listener del requires --trsvcid" \
     nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST"
 
+# --traddr is a required parameter of `listener del` (NVMeoFListener.delete
+# in ceph's mgr/dashboard/controllers/nvmeof.py declares it with no default,
+# and _check_required_params rejects a call without it before the request
+# ever reaches the gateway). Every del below therefore names the address as
+# well as the port; without it the command is refused by ceph's argument
+# parser and nothing is ever deleted.
 assert_fails "listener del rejects a port with no listener" \
-    nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST" --trsvcid 4999
+    nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST" \
+        --traddr "$GW_ADDR" --trsvcid 4999
 
 assert_ok "listener del" \
-    nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST" --trsvcid "$PORT2"
+    nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST" \
+        --traddr "$GW_ADDR" --trsvcid "$PORT2"
 assert_eq "1" "$(listener_count)" "one listener left"
 assert_eq "0" "$(has_listener_on_port "$PORT2")" "the deleted listener is gone"
 assert_eq "1" "$(has_listener_on_port "$PORT1")" "the other listener was left alone"
@@ -147,5 +166,5 @@ assert_eq "1" "$(has_listener_on_port "$PORT1")" "the other listener was left al
 # connected here, so it is simply accepted.
 assert_ok "listener del --force" \
     nvmeof_cmd listener del --nqn "$NQN" --host-name "$GW_HOST" \
-        --trsvcid "$PORT1" --force=true
+        --traddr "$GW_ADDR" --trsvcid "$PORT1" --force=true
 assert_eq "0" "$(listener_count)" "no listeners left"

@@ -163,8 +163,16 @@ assert_fails "namespace del rejects an unknown nsid" \
 assert_ok "namespace del removes a namespace" \
     nvmeof_cmd namespace del --nqn "$NQN" --nsid 42
 assert_eq "2" "$(ns_count)" "the deleted namespace is gone from the list"
-assert_fails "namespace get rejects the nsid that was just deleted" \
+
+# `namespace get` is a filtered list_namespaces, not a lookup: list_namespaces
+# in control/grpc.py skips every nsid that does not match and returns
+# status 0 with an empty list, so a deleted nsid is an empty answer and exit
+# 0 rather than an error. Assert on the answer, not on the exit code.
+assert_ok "namespace get on the nsid that was just deleted" \
     nvmeof_cmd namespace get --nqn "$NQN" --nsid 42
+assert_eq "0" "$(nvmeof_json namespace list --nqn "$NQN" |
+    json_get '[.namespaces[] | select(.nsid == 42)] | length')" \
+    "the nsid that was just deleted is gone"
 
 # The image behind it stays, because nothing asked for it to be trashed.
 assert_contains "$(rbd_cmd -p "$RBD_POOL" ls)" "$IMAGE3" \

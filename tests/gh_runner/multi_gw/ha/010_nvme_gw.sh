@@ -42,6 +42,8 @@ suite_cleanup() {
         nvme_gw_cmd enable "$DISABLED_GW" "$RBD_POOL" "$GROUP" ||
             warn "could not re-enable gateway $DISABLED_GW"
     fi
+    use_gateway 1
+    suite_cleanup_subsystems
 }
 trap suite_exit EXIT
 
@@ -74,6 +76,31 @@ assert_contains "$show" "$GW2" "show lists the second gateway"
 
 assert_eq "2" "$(gw_count)" "show reports exactly the two gateways we started"
 
+# A running gateway is not yet an AVAILABLE one. update_gw_subsystems() in
+# the monitor (src/mon/NVMeofGwMon.cc) forces the availability back to
+# GW_CREATED for any gateway whose beacon reports no subsystems or no
+# listeners, which is exactly what a gateway with nothing configured
+# reports. So give each of them something to serve -- one subsystem, shared
+# by the group, with a listener of its own on each gateway -- before asking
+# the monitor whether they are available. `ok-to-stop` below needs the same
+# thing: it refuses while the group has no available gateway to take over.
+AVAIL_NQN="$(suite_nqn avail)"
+assert_ok "subsystem add for the availability check" \
+    nvmeof_cmd subsystem add --nqn "$AVAIL_NQN" --no-group-append
+
+for i in 1 2; do
+    use_gateway "$i"
+    # The subsystem was created through gateway 1 and reaches the other one
+    # through the OMAP, which is not instant.
+    wait_until 60 nvmeof_cmd subsystem get --nqn "$AVAIL_NQN" ||
+        warn "gateway $i does not report $AVAIL_NQN yet"
+    assert_ok "listener add on gateway $i" \
+        nvmeof_cmd listener add --nqn "$AVAIL_NQN" \
+            --host-name "$(gateway_hostname "$NVMEOF_TARGET_CONTAINER")" \
+            --traddr "$NVMEOF_TARGET_ADDRESS" --trsvcid "${NVMEOF_IO_PORT:-4420}"
+done
+use_gateway 1
+
 # wait_gateways.sh only waits for the gateway to answer gRPC. The monitor
 # learns a gateway is available from its beacons, which lag that, so poll
 # rather than reading once.
@@ -89,14 +116,26 @@ done
 
 assert_ok "nvme-gw listeners" nvme_gw_cmd listeners "$RBD_POOL" "$GROUP"
 
-assert_fails "nvme-gw show rejects a pool that does not exist" \
+# nvme-gw show never validates the pool. NVMeofGwMon::nvme_gw_show_command
+# in the monitor builds the (pool, group) key and dumps whatever the gateway
+# map holds for it; an unknown pool is simply a map with nothing in it, so
+# the command succeeds and reports no gateways.
+assert_ok "nvme-gw show on a pool that does not exist" \
     nvme_gw_cmd show no-such-pool "$GROUP"
+assert_eq "0" "$(nvme_gw_cmd show no-such-pool "$GROUP" --format json |
+    json_get '."num gws"')" \
+    "nvme-gw show reports no gateways for a pool that does not exist"
 
 # ---------------------------------------------------------------------------
 section "ceph nvme-gw ok-to-stop"
 # ---------------------------------------------------------------------------
 
 # With two gateways available, stopping one has to be allowed.
+# NVMeofGwMap::is_ok_to_stop() answers EBUSY while the group has no
+# available gateway, or while as many are already down as
+# mon_nvmeofgw_max_down_gws permits -- hence the AVAILABLE poll above, which
+# is what makes this a question about HA rather than about a group that was
+# never serving.
 assert_ok "ok-to-stop for the group" nvme_gw_cmd ok-to-stop "$RBD_POOL" "$GROUP"
 assert_ok "ok-to-stop for a named gateway" \
     nvme_gw_cmd ok-to-stop "$RBD_POOL" "$GROUP" "$GW1"
